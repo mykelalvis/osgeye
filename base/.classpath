@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-  <classpathentry kind="src" path="console"/>
+	<classpathentry kind="src" path="console"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="lib" path="lib/osgi.cmpn-4.1.jar"/>
 	<classpathentry kind="lib" path="lib/osgi.core-4.1.jar"/>
@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="lib/xmlunit-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jline-0.9.94.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.5.6.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.5.0 (MacOS X Default)"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
