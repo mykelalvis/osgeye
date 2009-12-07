@@ -1,0 +1,42 @@
+<project name="OSGEye" default="buildRelease">
+
+  <property file="project.properties" />
+
+  <taskdef resource="aQute/bnd/ant/taskdef.properties" classpath="lib/bnd-0.0.249.jar"/> 
+
+  <path id="project.classpath">
+    <fileset dir="lib" includes="*.jar"/>
+  </path>
+
+  <target name="clean">
+    <delete dir="classes" />
+    <delete file="${bundle.name}-${bundle.version}.jar" />
+  </target>
+
+  <target name="compileBundle">
+    <mkdir dir="classes" />
+    <javac srcdir="src" destdir="classes" excludes="org/osgeye/client/**" classpathref="project.classpath" source="1.5" debug="true" nowarn="true" />
+  </target>
+
+  <target name="buildBundle" description="Create bundle file" depends="clean,compileBundle">
+    <bnd classpath="classes" files="project.bnd" output="${bundle.name}-${bundle.version}.jar" /> 
+  </target>
+
+  <target name="compileConsole">
+    <mkdir dir="classes" />
+    <javac srcdir="src:console" destdir="classes" excludes="org/osgeye/server/**" classpathref="project.classpath" source="1.5" debug="true" nowarn="true"/>
+  </target>
+
+	<target name="buildConsole" description="Build console jar file." depends="clean,compileConsole">
+		<unjar src="lib/jline-0.9.94.jar" dest="classes"/>
+    <unjar src="lib/commons-io-1.4.jar" dest="classes"/>
+		<copy todir="classes">
+		  <fileset dir="src" excludes="org/osgeye/server/**"/>
+      <fileset dir="console"/>
+		</copy>
+		<jar manifest="conf/manifest.mf" basedir="classes" destfile="${bundle.name}.console-${bundle.version}.jar"/>
+  </target>
+	
+	<target name="buildRelease" description="Create bundle and console jar files." depends="buildBundle,buildConsole"/>
+
+</project>
