@@ -1,7 +1,3 @@
 #summary Summary of OSGEye architecture.
 
-= OSGEye Architecture =
-
-TODO
-
 <img src="http://osgeye.org/images/architecture.gif"/>
