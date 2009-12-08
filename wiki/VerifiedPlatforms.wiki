@@ -1,7 +1,7 @@
 #summary OSGi platforms that OSGEye has been verified on.
 #labels Featured
 
-In theory OSGi will work on any 4.1 compliant OSGi implementation running in a 5.0 JVM that supplies the following framework services:
+In theory OSGEye will work on any 4.1 compliant OSGi implementation running in a 5.0 JVM that supplies the following framework services:
 
  * [http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html ConfigurationAdmin]
  * [http://www.osgi.org/javadoc/r4v41/org/osgi/service/packageadmin/PackageAdmin.html PackageAdmin]
