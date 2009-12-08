@@ -1,0 +1,5 @@
+#summary Summary of OSGEye architecture.
+
+= OSGEye Architecture =
+
+<img src="http://osgeye.org/images/architecture.gif"/>
