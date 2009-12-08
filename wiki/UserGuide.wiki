@@ -81,10 +81,10 @@ Every bundle installed in the OSGi runtime will get an associated MBean. The nam
    * ACTIVE
    * STOPPING 
 
-* SymbolicName - The bundle's symbolic name (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getSymbolicName() getSymbolicName]).
+ * SymbolicName - The bundle's symbolic name (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getSymbolicName() getSymbolicName]).
 
  * Version - The bundle's version.
 
 <br>
-http://osgeye.org/images/jmx2.gif
+http://osgeye.org/images/jmx3.gif
 <br>
