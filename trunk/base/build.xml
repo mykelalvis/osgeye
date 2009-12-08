@@ -55,6 +55,11 @@
   	<copy file="lib/slf4j-api-1.5.10.jar" todir="dist/release/osgeye-${bundle.version}"/>
     <copy file="lib/slf4j-simple-1.5.10.jar" todir="dist/release/osgeye-${bundle.version}"/>
     <copy file="lib/slf4j-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
+    <copy file="lib/jline-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
+    <copy file="lib/commons-io-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
+    <copy file="lib/osgeye-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
+    <copy file="docs/README.txt" todir="dist/release/osgeye-${bundle.version}"/>
+
   	<zip destfile="dist/${bundle.name}-${bundle.version}.zip" basedir="dist/release" />
 	</target>
 </project>
