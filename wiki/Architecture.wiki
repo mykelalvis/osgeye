@@ -1,3 +1,4 @@
 #summary Summary of OSGEye architecture.
+#labels Featured
 
 <img src="http://osgeye.org/images/architecture.gif"/>
