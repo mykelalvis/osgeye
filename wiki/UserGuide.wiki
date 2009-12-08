@@ -99,13 +99,13 @@ Each bundle MBean provides the following operations:
 
  * stop(int optiona) - Attempts to stop the bundle with the provided options if the bundle is currently active (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#stop(int) stop(int)]).
 
- * resolve() - Attempts to resolve the bundle if the bundle is currently not resolved (see [http://www.osgi.org/javadoc/r4v41/org/osgi/service/packageadmin/PackageAdmin.html#resolveBundles(org.osgi.framework.Bundle[]) resolveBundles()]).
+ * resolve() - Attempts to resolve the bundle if the bundle is currently not resolved (see <a href="http://www.osgi.org/javadoc/r4v41/org/osgi/service/packageadmin/PackageAdmin.html#resolveBundles(org.osgi.framework.Bundle[])">resolveBundles()</a>).
 
  * update() - Updates the bundle from either the [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Constants.html#BUNDLE_UPDATELOCATION update bundle location] from the bundle's manifest (if available) or the bundle's original location (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#update() update()]).
 
- * update(String bundleJarLocation) - Updates the bundle from the given path that points to jar file on the server side (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#update(java.io.InputStream)]).
+ * update(String bundleJarLocation) - Updates the bundle from the given path that points to jar file on the server side (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#update(java.io.InputStream) update(InputStream)]).
 
- * refreshPackages() - Forces an update on packages exported by the given bundle (see [http://www.osgi.org/javadoc/r4v41/org/osgi/service/packageadmin/PackageAdmin.html#refreshPackages(org.osgi.framework.Bundle[]) refreshPackages()]).
+ * refreshPackages() - Forces an update on packages exported by the given bundle (see <a href="http://www.osgi.org/javadoc/r4v41/org/osgi/service/packageadmin/PackageAdmin.html#refreshPackages(org.osgi.framework.Bundle[])">refreshPackages()</a>).
 
  * uninstall() - Uninstalls the bundle (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#uninstall() uninstall]).
 
