@@ -23,10 +23,6 @@ import org.slf4j.LoggerFactory;
 
 public class NetworkServer implements Runnable, EventDispatcher
 {
-  static public final String DEFAULT_HOST = null;
-  
-  static public final int DEFAULT_PORT = 9999;
-  
   /*
    * The maximum number of accept failures. Set this so this thread doesn't get
    * in a messed up state and just infinitely loop in the run method.
@@ -37,6 +33,9 @@ public class NetworkServer implements Runnable, EventDispatcher
   private Logger logger;
   private String host;
   private int port;
+  private String user;
+  private String password;
+  private boolean performAuthentication;
   
   private boolean running;
   private List<ClientConnection> clientConnections;
@@ -45,20 +44,16 @@ public class NetworkServer implements Runnable, EventDispatcher
   
   private int numberClientConnects;
 
-  
-  public NetworkServer(MessageProcessor messageProcessor)
-  {
-    this(messageProcessor, DEFAULT_HOST, DEFAULT_PORT);
-  }
-  
-  public NetworkServer(MessageProcessor messageProcessor, String host, int port)
+  public NetworkServer(MessageProcessor messageProcessor, String host, int port, String user, String password)
   {
     this.messageProcessor = messageProcessor;
     this.host = host;
     this.port = port;
-
+    this.user = user;
+    this.password = password;
+    
+    performAuthentication = ((user != null) && (password != null));
     logger = LoggerFactory.getLogger(getClass());
-
     clientConnections = new ArrayList<ClientConnection>();
   }
   
@@ -163,17 +158,17 @@ public class NetworkServer implements Runnable, EventDispatcher
         {
           LoginRequest loginCmd = (LoginRequest)request;
           
-          if (true)
+          if (performAuthentication && (!user.equals(loginCmd.getUserName()) || !password.equals(loginCmd.getPassword())))
+          {
+            logger.warn("Received invalid login request with user name: " + loginCmd.getUserName());
+            oos.writeObject(new LoginResponse(loginCmd.getMessageId(), false, null, "Invalid credentials."));
+          }
+          else
           {
             oos.writeObject(new LoginResponse(loginCmd.getMessageId(), true, "1", null));
             ClientConnection connection = new ClientConnection(this, messageProcessor, clientSocket, ois, oos);
             clientConnections.add(connection);
             connection.start();
-          }
-          else
-          {
-            logger.warn("Received invalid login request with user name: " + loginCmd.getUserName() + " and password: " + loginCmd.getPassword());
-            oos.writeObject(new LoginResponse(loginCmd.getMessageId(), false, null, "Invalid credentials."));
           }
         }
         else
@@ -198,11 +193,14 @@ public class NetworkServer implements Runnable, EventDispatcher
         catch(Exception exc)
         {}
         
-        logger.warn("Received io exception on accept: " + ioexc.getMessage(), ioexc);
-        if (++acceptFailures > MAX_ACCEPT_FAILURES)
+        if (running)
         {
-          logger.error("Maximum accept failures received. Server is shutting down.");
-          running = false;
+          logger.warn("Received io exception on accept: " + ioexc.getMessage(), ioexc);
+          if (++acceptFailures > MAX_ACCEPT_FAILURES)
+          {
+            logger.error("Maximum accept failures received. Server is shutting down.");
+            running = false;
+          }
         }
       }
       catch (ClassNotFoundException cnfexc)

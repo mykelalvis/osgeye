@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+import org.osgeye.Constants;
 import org.osgeye.server.jmx.MBeanManager;
 import org.osgeye.server.network.NetworkServer;
 import org.osgeye.server.osgi.servicewrappers.OsgiConfigAdmin;
@@ -22,9 +23,14 @@ import org.slf4j.LoggerFactory;
 
 public class BundleActivator implements org.osgi.framework.BundleActivator, ManagedService
 {
-  static public final String CONFIG_HOST = "HOST";
-  static public final String CONFIG_PORT = "PORT";
+  static public final String CONFIG_HOST = "host";
   
+  static public final String CONFIG_PORT = "port";
+  
+  static public final String CONFIG_USER = "user";
+
+  static public final String CONFIG_PASSWORD = "password";
+
   private Logger logger = LoggerFactory.getLogger(BundleActivator.class);
   
   private BundleContext context;
@@ -46,10 +52,10 @@ public class BundleActivator implements org.osgi.framework.BundleActivator, Mana
   {
     this.context = context;
     String versionString = (String) context.getBundle().getHeaders().get(BUNDLE_VERSION);
-    String servicePid = getClass().getName() + "." + versionString;
+    String servicePid = getClass().getName() + "-" + versionString;
     Dictionary<String, Object> properties = new Hashtable<String, Object>();
     properties.put(SERVICE_PID, servicePid);
-    properties.put(SERVICE_DESCRIPTION, getClass().getName() + " " + versionString + " configuration interface");
+    properties.put(SERVICE_DESCRIPTION, getClass().getPackage().getName() + " " + versionString + " configuration interface");
     context.registerService(ManagedService.class.getName(), this, properties);
   }
 
@@ -65,16 +71,35 @@ public class BundleActivator implements org.osgi.framework.BundleActivator, Mana
     
     try
     {
-      if ((properties != null) && (properties.get(CONFIG_HOST) != null) && (properties.get(CONFIG_PORT) != null))
+      String host = null;
+      int port = Constants.DEFAULT_PORT;
+      String user = null;
+      String password = null;
+      
+      if (properties != null)
       {
-        String host = (String)properties.get(CONFIG_HOST);
-        Integer port = Integer.parseInt(properties.get(CONFIG_PORT).toString());
-        server = new NetworkServer(messageProcessor, host, port);
+        if (properties.get(CONFIG_HOST) != null)
+        {
+          host = (String)properties.get(CONFIG_HOST);
+        }
+        
+        if (properties.get(CONFIG_PORT) != null)
+        {
+          port = Integer.parseInt(properties.get(CONFIG_PORT).toString());
+        }
+
+        if (properties.get(CONFIG_USER) != null)
+        {
+          user = ((String)properties.get(CONFIG_USER)).trim();
+        }
+
+        if (properties.get(CONFIG_PASSWORD) != null)
+        {
+          password = ((String)properties.get(CONFIG_PASSWORD)).trim();
+        }
       }
-      else
-      {
-        server = new NetworkServer(messageProcessor);
-      }
+      
+      server = new NetworkServer(messageProcessor, host, port, user, password);
       
       messageProcessor.setEventDispatcher(server);
       server.start();
