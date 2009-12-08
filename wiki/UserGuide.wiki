@@ -1,4 +1,6 @@
+#summary OSGEye User Guide
 #labels Featured
+
 = OSGEye User Guide =
 
-OSGEye provides 
+OSGEye provides management tools for your OSGi platform. For installation information see the [InstallationGuide installation guide].
