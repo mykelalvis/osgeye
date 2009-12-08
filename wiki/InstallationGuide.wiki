@@ -14,5 +14,5 @@ The OSGEye bundle has one external requirement (that may not already be supplied
 == Installing The Command Line Client ==
 
 The command line client is a self contained jar file org.osgeye.console-${version}.jar. To execute this client run the command:
-  
-   java -jar org.osgeye.console-${version}.jar
+
+{{{java -jar org.osgeye.console-${version}.jar}}}
