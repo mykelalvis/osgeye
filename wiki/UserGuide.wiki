@@ -3,4 +3,4 @@
 
 = OSGEye User Guide =
 
-OSGEye provides management tools for your OSGi platform. For installation information see the [InstallationGuide installation guide].
+OSGEye provides management tools for your OSGi platform. For installation information see the [InstallationGuide installation guide]. OSGEye currently provides remote access for management through a command line client and JMX.
