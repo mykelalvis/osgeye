@@ -1,0 +1,14 @@
+#summary OSGi platforms that OSGEye has been verified on.
+
+= Verified OSGEye Platforms =
+
+In theory OSGi will work on any 4.1 compliant OSGi implementation running in a 5.0 JVM that supplies the following framework services:
+
+ * [http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html ConfigurationAdmin]
+ * [http://www.osgi.org/javadoc/r4v41/org/osgi/service/packageadmin/PackageAdmin.html PackageAdmin]
+ * [http://www.osgi.org/javadoc/r4v41/org/osgi/service/startlevel/StartLevel.html StartLevel]
+
+In practice OSGEye has been verified on the following OSGi implementations:
+
+ * [http://www.eclipse.org/equinox/ Equinox] - This is the platform that OSGEye has been tested on the most through the [http://www.springsource.com/products/dmserver Spring DM Server] and by running equinox directly.
+ * [http://felix.apache.org/site/index.html Felix] - Has been verified through [http://servicemix.apache.org/SMX4/index.html ServiceMix4] but not to the extent of equinox.
