@@ -11,7 +11,7 @@ Installing the OSGEye server is accomplished by deploying and starting the OSGEy
 
 === Bundle Requirements ===
 
-The OSGEye bundle requires a 5.0 compliant or greater JVM and a 4.1 or greater OSGi implementation. The following OSGi framework services must be available for the bundle to properly function (the bundle will startup fine without these but they must be available for the first client request):
+The OSGEye bundle requires a 5.0 or greater JVM and a 4.1 or greater OSGi implementation. The following OSGi framework services must be available for the bundle to properly function (the bundle will startup fine without these but they must be available for the first client request):
 
  * [http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html ConfigurationAdmin]
  * [http://www.osgi.org/javadoc/r4v41/org/osgi/service/packageadmin/PackageAdmin.html PackageAdmin]
@@ -27,4 +27,4 @@ The command line client is a self contained jar file org.osgeye.console-${versio
 
 === Command Line Client Requirements ===
 
-The OSGEye command line client requires a 5.0 compliant or greater JVM to run in.
+The OSGEye command line client requires a 5.0 or greater JVM to run in.
