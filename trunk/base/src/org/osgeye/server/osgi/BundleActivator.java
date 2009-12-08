@@ -46,7 +46,7 @@ public class BundleActivator implements org.osgi.framework.BundleActivator, Mana
   {
     this.context = context;
     String versionString = (String) context.getBundle().getHeaders().get(BUNDLE_VERSION);
-    String servicePid = versionString + "." + getClass().getName();
+    String servicePid = getClass().getName() + "." + versionString;
     Dictionary<String, Object> properties = new Hashtable<String, Object>();
     properties.put(SERVICE_PID, servicePid);
     properties.put(SERVICE_DESCRIPTION, getClass().getName() + " " + versionString + " configuration interface");
