@@ -1,7 +1,6 @@
 package org.osgeye.console;
 
 import static java.lang.System.*;
-import static org.osgeye.console.Constants.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,6 +15,7 @@ import jline.Completor;
 import jline.ConsoleReader;
 import jline.History;
 
+import org.osgeye.Constants;
 import org.osgeye.client.ServerListener;
 import org.osgeye.client.events.ServerEvent;
 import org.osgeye.client.network.NetworkClient;
@@ -57,7 +57,18 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
   
   public static void main(String[] args) throws Exception
   {
+    if ((args.length >= 1) 
+        && (args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("-help") 
+            || args[0].equalsIgnoreCase("?")))
+    {
+      printHelp();
+      return;
+    }
+    
     String host = null;
+    int port = Constants.DEFAULT_PORT;
+    String user = null;
+    String password = null;
     
     BufferedReader inReader = new BufferedReader(new InputStreamReader(in));
     if (args.length > 0)
@@ -69,7 +80,58 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
       out.print("\nEnter the host: ");
       host = inReader.readLine();
     }
-    new OSGEyeConsole(host, 9999, "user", "password").readEvaluateRepeat();
+    
+    if (args.length > 1)
+    {
+      try
+      {
+        port = Integer.parseInt(args[1]);
+        if ((port < 1) || (port > 65535)) throw new NumberFormatException();
+      }
+      catch (NumberFormatException nfexc)
+      {
+        out.println("\nThe port number must be a valid number between 1 - 65535.");
+        printHelp();
+        return;
+      }
+    }
+    
+    if (args.length > 2)
+    {
+      user = args[2];
+    }
+    
+    if (args.length == 3)
+    {
+      out.println("\nIf a user name is provided a password must also be provided to login.");
+      printHelp();
+      return;
+    }
+    else if (args.length > 3)
+    {
+      password = args[3];
+    }
+    
+    new OSGEyeConsole(host, port, user, password).readEvaluateRepeat();
+  }
+  
+  static private void printHelp()
+  {
+    out.println(
+        "\nThe OSGEye console takes the following four (in order) input arguments: host, port, user, password\n\n" +
+
+        "    host:     This is the host name or IP address of the OSGEye server. This argument is required.\n" +
+        "              If the console is started up without a host input argument it will prompt you to provide\n" +
+        "              one.\n\n" +
+
+        "    port:     The port number the OSGEye server is listening on. If not provided the default OSGEye port\n" +
+        "              " + Constants.DEFAULT_PORT + " will be used.\n\n" +
+        
+        "    user:     The user name used to connect with the OSGEye server. If not provided anonymous access to the\n" +
+        "              server will be assumed. If user is provided then a password must also be provided.\n\n" + 
+        
+        "    password: The password used to connect with the OSGEye server."
+    );
   }
   
   
@@ -86,7 +148,7 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
   
   private OSGEyeConsole(String host, int port, String user, String password) throws Exception
   {
-    out.println("OSGEye Console v" + VERSION);
+    out.println("OSGEye Console v" + Constants.VERSION);
     out.println("Loading bundles. This may take a second or two...");
     
     serverId = new NetworkServerIdentity(host, port);

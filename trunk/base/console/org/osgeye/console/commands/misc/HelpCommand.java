@@ -1,7 +1,6 @@
 package org.osgeye.console.commands.misc;
 
 import static java.lang.System.*;
-import static org.osgeye.console.Constants.*;
 import static org.osgeye.console.commands.CommandUtils.*;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import jline.Completor;
 import jline.NullCompletor;
 import jline.SimpleCompletor;
 
+import org.osgeye.Constants;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -81,7 +81,7 @@ public class HelpCommand extends AbstractCommand
     
     if (subcommands.size() == 0)
     {
-      printer.println("OSGEye Console, v" + VERSION);
+      printer.println("OSGEye Console, v" + Constants.VERSION);
       printer.println("usage: <command> [options] <args>");
       printer.println("Type 'help <command>' for help on a specific command.");
       printer.println("\nAvailable commands:");
