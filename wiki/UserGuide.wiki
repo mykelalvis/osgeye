@@ -1,6 +1,90 @@
-#summary OSGEye User Guide
+#summary OSGEye user guide
 #labels Featured
 
-= OSGEye User Guide =
+OSGEye provides management tools for your OSGi platform. For installation information and platform requirements see the [InstallationGuide installation guide]. OSGEye currently provides remote access for management through a command line client and JMX.
 
-OSGEye provides management tools for your OSGi platform. For installation information see the [InstallationGuide installation guide]. OSGEye currently provides remote access for management through a command line client and JMX.
+== OSGEye Bundle ==
+
+The server piece of OSGEye is an OSGi bundle that must be installed into your OSGi runtime. Once installed, OSGEye starts up a network server that remote hosts (like the command line client) can connect to.  OSGEye bundle supports the following configuration properties:
+
+ * host - The network host to accept client requests from. If not specified OSGEye will listen on all interfaces.
+
+ * port- The network port to accept client requests from. If not specified OSGEye will attempt to use the default port 9999.
+
+ * user - The user name used to authenticate client requests. If both user and password are specified authentication will be activated and clients will be required to pass these credentials before accessing the server services. *This does not secure JMX access. If you have activated remote JMX access in your system you must add security independent of OSGEye*.
+
+ * password - The password used to authenticate client requests. If both user and password are specified authentication will be activated and clients will be required to pass these credentials before accessing the server services. *This does not secure JMX access. If you have activated remote JMX access in your system you must add security independent of OSGEye*.
+
+The OSGEye bundle uses the configuration interfaces provided by the OSGi specification to receive this configuration. At startup, the bundle registers a [http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ManagedService.html ManagedService] with the service pid:
+
+{{{org.osgeye.server.osgi-${bundle version}}}}
+
+Use the [http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html ConfigurationAdmin] to inject this service with configuration values. Every time OSGEye receives updated configuration information it restarts the network server with these new parameters (this means all connected clients will be disconnected).
+
+== OSGEye JMX ==
+
+When the OSGEye bundle starts up it gets a reference to platform's default [http://java.sun.com/javase/6/docs/api/javax/management/MBeanServer.html MBeanServer] (by calling [http://java.sun.com/javase/6/docs/api/java/lang/management/ManagementFactory.html#getPlatformMBeanServer() this method]) and adds MBeans for monitoring and managing your OSGi platform. OSGEye does not add any type of connectors to this MBeanServer for remote access. Providing remote, secure access to the MBeanServer must be done independently of OSGEye.  
+
+OSGEye adds all of its MBeans under the _org.osgeye_ domain. If you connect to a OSGEye managed runtime with JConsole you should see something like:
+
+<br>
+http://osgeye.org/images/jmx1.gif
+<br>
+
+MBeans are provided for the following OSGi types:
+
+ * The Framework
+ * Bundles
+ * Services
+ * Configuration
+
+=== Framework MBean ===
+
+The framework MBean has two readable and writable attributes:
+
+ * InitialBundleStartLevel - The start level assigned to newly installed bundles.
+ * StartLevel - The currently start level of the framework.
+
+<br>
+http://osgeye.org/images/jmx2.gif
+<br>
+
+=== Bundle MBeans ===
+
+Every bundle installed in the OSGi runtime will get an associated MBean. The name of the MBean will be the bundle's symbolic name followed by the bundle's version number. Each bundle MBean has the following read only attributes:
+
+ * ExportedPackages - A list of packages and version numbers that this bundle exports.
+
+ * Fragment - Boolean indicator is this bundle is a fragment or not.
+
+ * Fragments - A list of bundles that are attached to this host bundle.
+
+ * Headers - A map of strings containing the headers found in the bundle's manifest (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getHeaders() getHeaders]).
+
+ * Hosts - A list of bundles this fragment bundle is attached to.
+
+ * Id - The bundle id (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getBundleId() getBundleId()]).
+
+ * ImportedPackages - A list of packages and version ranges that this bundle imports.
+
+ * LastModified - The date this bundle was last modified (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getLastModified() getLastModified]).
+
+ * Location - The install location of the bundle (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getLocation() getLocation()]).
+
+ * StartLevel - The bundle's start level (see [http://www.osgi.org/javadoc/r4v41/org/osgi/service/startlevel/StartLevel.html#getBundleStartLevel(org.osgi.framework.Bundle) getBundleStartLevel()]).
+
+ * State - The bundle's current state. One of:
+
+   * INSTALLED
+   * RESOLVED
+   * STARTING
+   * ACTIVE
+   * STOPPING 
+
+* SymbolicName - The bundle's symbolic name (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getSymbolicName() getSymbolicName]).
+
+ * Version - The bundle's version.
+
+<br>
+http://osgeye.org/images/jmx2.gif
+<br>
