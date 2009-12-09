@@ -1,0 +1,1 @@
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=localhost:4001 -cp "../conf;../bin;../lib/jline-0.9.94.jar;../lib/commons-cli-1.2.jar;../lib/commons-io-1.4.jar;../lib/log4j-1.2.15.jar;../lib/osgi-core-4.1.jar;../lib/osgi.cmpn-4.1.jar" org.osgeye.console.OSGEyeConsole localhost
