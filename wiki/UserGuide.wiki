@@ -176,7 +176,7 @@ The console commands are broken up into the following categories:
  * [ClearCommand clear]
  * [ExitCommand exit]
  * [HelpCommand help]
- * {ReloadCommand reload]
+ * [ReloadCommand reload]
 
 == OSGEye JMX ==
 
