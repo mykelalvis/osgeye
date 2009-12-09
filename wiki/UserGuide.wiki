@@ -127,7 +127,7 @@ Many of the commands that print back status can optionally have their output wri
 cbass@localhost:9999$ manifest org.osgeye > osgeye.mf      
 }}}
 
-This puts the contents of the _org.osgeye_ bundle's manifest file into the _osgeye.mf_ file. Unless an absolute path is specified the path will be relative to the directory that console was started in. Once you type the _>_ tab completion will be enabled for viewing what directories and files. 
+This puts the contents of the _org.osgeye_ bundle's manifest file into the _osgeye.mf_ file. Unless an absolute path is specified the path will be relative to the directory that console was started in. Once you type the _>_ tab completion will be enabled for viewing what directories and files. Read the help details on each command to see which ones have this feature enabled (almost all the commands in the Description category supports this).
 
 == OSGEye JMX ==
 
