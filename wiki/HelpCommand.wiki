@@ -1,0 +1,3 @@
+#summary Prints help for all commands.
+
+Prints help for all commands.
