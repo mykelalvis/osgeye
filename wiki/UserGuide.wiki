@@ -129,6 +129,55 @@ cbass@localhost:9999$ manifest org.osgeye > osgeye.mf
 
 This puts the contents of the _org.osgeye_ bundle's manifest file into the _osgeye.mf_ file. Unless an absolute path is specified the path will be relative to the directory that console was started in. Once you type the _>_ tab completion will be enabled for viewing what directories and files. Read the help details on each command to see which ones have this feature enabled (almost all the commands in the Description category supports this).
 
+=== Commands ===
+
+The console commands are broken up into the following categories:
+
+ * Descriptions - Commands that are read only that report back the state of the system.
+ 
+ * Actions - Commands that attempt to change the state of the system.
+
+ * Diagnosis - Commands that attempt to determine problems with the system.
+
+ * Misc - Commands that don't really fall into any of the above categories.
+
+==== Description Commands ====
+
+ * [BundlesCommand bundles]
+ * [ConfigsCommand configs]
+ * [ExportsCommand exports]
+ * [FrameworkCommand framework]
+ * [GraphCommand graph]
+ * [ImportsCommand imports]
+ * [LsCommand ls]
+ * [ManifestCommand manifest]
+ * [NotificationsCommand notifications]
+ * [PackagesCommand packages]
+ * [ServicesCommand services]
+ * [StatesCommand states]
+
+==== Action Commands ====
+
+ * [InstallCommand install]
+ * [RefreshPacksCommand refreshpacks]
+ * [ResolveCommand resolve]
+ * [SetCommand set]
+ * [StartCommand start]
+ * [StopCommand stop]
+ * [UninstallCommand uninstall]
+
+==== Diagnosis Commands ====
+
+ * [MissingCommand missing]
+ * [UnresolvedCommand unresolved]
+
+==== Miscellaneous Commands ====
+
+ * [ClearCommand clear]
+ * [ExitCommand exit]
+ * [HelpCommand help]
+ * {ReloadCommand reload]
+
 == OSGEye JMX ==
 
 When the OSGEye bundle starts up it gets a reference to platform's default [http://java.sun.com/javase/6/docs/api/javax/management/MBeanServer.html MBeanServer] (by calling [http://java.sun.com/javase/6/docs/api/java/lang/management/ManagementFactory.html#getPlatformMBeanServer() this method]) and adds MBeans for monitoring and managing your OSGi platform. OSGEye does not add any type of connectors to this MBeanServer for remote access. Providing remote, secure access to the MBeanServer must be done independently of OSGEye.  
