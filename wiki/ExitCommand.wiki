@@ -1,0 +1,3 @@
+#summary Exits from the console.
+
+Exits from the console.
