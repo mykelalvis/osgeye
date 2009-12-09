@@ -4,7 +4,7 @@ format:
 
 sub-commands:
 
-    <file pipe>    The output of this command can be piped to a file by using the syntax "> filepath.exentension" as the last arguments.
+    <file pipe>    The output of this command can be piped to a file by using the syntax "> file path" as the last arguments.
 
 output: 
       Summary of framework state.

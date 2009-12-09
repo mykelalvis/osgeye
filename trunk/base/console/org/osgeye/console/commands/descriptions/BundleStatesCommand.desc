@@ -19,7 +19,7 @@ sub-commands:
                      
                        Uninstalled  The bundle is uninstalled and may not be used.
     
-    <file pipe>     The output of this command can be piped to a file by using the syntax "> filepath.exentension" 
+    <file pipe>     The output of this command can be piped to a file by using the syntax "> file path" 
                     as the last arguments.
 
 output: 

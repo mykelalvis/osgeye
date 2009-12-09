@@ -1,6 +1,6 @@
 format:
 
-    missing <bundle name pattern>? <version range>? <type>? <file pipe>?
+    unresolved <bundle name pattern>? <version range>? <type>? <file pipe>?
 
 sub-commands:
                            

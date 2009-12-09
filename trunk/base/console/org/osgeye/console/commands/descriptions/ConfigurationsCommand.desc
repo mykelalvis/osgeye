@@ -1,10 +1,10 @@
 format:
 
-    configs <filter> <pattern> <file pipe>
+    configs <filter>? <file pipe>?
 
 sub-commands:
 
-    <filter>     The filter string used to retrieve matching bundle configurations. This is the same filter used on the ConfigurationAdmon#listConfigurations and
+    <filter>     The filter string used to retrieve matching bundle configurations. This is the same filter used on the ConfigurationAdmin.listConfigurations and
                  should be an LDAP type filter with the properties as parameters. If not specified all bundle configurations will be displayed.
                            
     <file pipe>  The output of this command can be piped to a file by using the syntax "> file path" as the last argument.
