@@ -48,6 +48,78 @@ Bundles are loaded. At anytime enter help for a list of available commands.
 cbass@localhost:9999$ 
 }}}
 
+Once logged in you can execute the _help_ command to see what other commands are available.
+
+{{{
+cbass@localhost:9999$ help
+
+OSGEye Console, v0.0.1
+usage: <command> [options] <args>
+Type 'help <command>' for help on a specific command.
+
+Available commands:
+    
+    Descrptions
+        bundles         Prints details on matching bundles.
+        configs         Prints bundle configurations.
+        exports         Displays the exported package wiring details for matching bundles.
+        framework       Prints the current state of the OSGi framework.
+        graph           Generates DOT based graphs.
+        imports         Displays the imported package wiring details for matching bundles.
+        ls              List the matching bundle or service names.
+        manifest        Prints the manifest file for matching bundles.
+        notifications   Prints OSGi notifications to the console.
+        packages        Displays the wiring details for matching packages.
+        services        List the matching service interfaces.
+        states          List each bundle under its bundle state.
+    
+    Actions
+        install         Installs a bundle on the remote server.
+        refreshpacks    Forces the update (replacement) or removal of packages exported by the specified bundles.
+        resolve         Resolves the specified bundles that are currently in the INSTALLED state.
+        set             Sets OSGi framework and bundle properties.
+        start           Starts the matching bundles.
+        stop            Stops the matching bundles.
+        uninstall       Uninstalls all matching bundles (after confirmation).
+    
+    Diagnosis
+        missing         Displays packages for bundles that are not wired.
+        unresolved      Attempts to diagnose why bundles in the INSTALLED state weren't resolved.
+    
+    Miscellaneous
+        clear           Clears the screen.
+        exit            Exits from the console.
+        help            Prints help for all commands.
+        reload          Reloads all state stored by the console from the server.
+}}}
+
+=== Tab Completion ===
+
+The first thing the client does after login is to load the current state of the server. Having the full state of the server on the client allows tab completion to be enabled on most of the available commands. This works similar to tab completion in a bash shell where anytime you press tab OSGEye will attempt to complete as much of the remaining operation as it can.
+
+For example, the {{{bundles}}} command prints out details about bundles in the system. It takes as its first argument the bundle name pattern to determine which bundles to print out. At the command prompt if you type the character _b_ and press the _tab_ button the console will automatically fill out the _bundles_ command since that's the only command that starts with _b_. If you then type _org_ and press _tab_ you might get something like:
+
+{{{
+cbass@localhost:9999$ bundles org.
+
+org.eclipse.equinox.cm   org.eclipse.osgi         org.osgeye
+cbass@localhost:9999$ bundles org.    
+}}}
+
+The first thing that happened was that the console supplied a _._ after the _org_ because all bundles in the system that start with _org_ also start with _org._ It then prints out as options the three bundles in the system that start with _org._ that you have to choose from. If you narrow down the name more by typing {{{org.eclipse}} and pressing _tab_ you will get:
+
+{{{
+cbass@localhost:9999$ bundles org.eclipse.
+
+org.eclipse.equinox.cm   org.eclipse.osgi
+cbass@localhost:9999$ bundles org.eclipse.
+}}}
+
+Tab completion works in almost all command scenarios for the console. If you ever unsure what to type next just press _tab_ and see what happens.
+
+Special thanks to the awesome [http://jline.sourceforge.net/ JLine] project that makes the tab completion possible.
+
+=== Output To File ===
 
 == OSGEye JMX ==
 
