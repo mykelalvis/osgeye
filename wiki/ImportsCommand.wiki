@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Displays the imported package wiring details for matching bundles.
 
 format:
 
