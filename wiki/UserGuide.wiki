@@ -115,11 +115,19 @@ org.eclipse.equinox.cm   org.eclipse.osgi
 cbass@localhost:9999$ bundles org.eclipse.
 }}}
 
-Tab completion works in almost all command scenarios for the console. If you ever unsure what to type next just press _tab_ and see what happens.
+Tab completion works in almost all command scenarios for the console. If your ever unsure what to type next just press _tab_ and see what happens.
 
 Special thanks to the awesome [http://jline.sourceforge.net/ JLine] project that makes the tab completion possible.
 
 === Output To File ===
+
+Many of the commands that print back status can optionally have their output written to a file instead of displayed on the console. This is accomplished by placing a _>_ on the end of the command and the path to the file to write to. For example the {{{manifest}}} command prints out the manifest file for matching bundles. If you wanted to print the manifest contents to a file instead of the screen do:
+
+{{{
+cbass@localhost:9999$ manifest org.osgeye > osgeye.mf      
+}}}
+
+This puts the contents of the _org.osgeye_ bundle's manifest file into the _osgeye.mf_ file. Unless an absolute path is specified the path will be relative to the directory that console was started in. Once you type the _>_ tab completion will be enabled for viewing what directories and files. 
 
 == OSGEye JMX ==
 
