@@ -1,6 +1,6 @@
 format:
 
-    manifest <bundle name pattern> <pretty|raw> <version range> <file pipe>
+    manifest <bundle name pattern>? <pretty|raw>? <version range>? <file pipe>?
 
 sub-commands:
 

@@ -13,7 +13,7 @@ sub-commands:
                            a ceiling (ex. "[2.2.3,3.1.0)") that bundle versions must fall within to be included or just a version value 
                            (ex. "2.2.3") that bundle version must equal to be included.
                            
-    <file pipe>            The output of this command can be piped to a file by using the syntax "> filepath.exentension" as the last arguments.
+    <file pipe>            The output of this command can be piped to a file by using the syntax "> file path" as the last arguments.
 
 see:
 

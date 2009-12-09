@@ -30,7 +30,7 @@ public class ConfigurationsCommand extends AbstractCommand
   @Override
   public String getShortDescription()
   {
-    return "Prints bundle configurations.";
+    return "Prints configurations.";
   }
 
   @Override
