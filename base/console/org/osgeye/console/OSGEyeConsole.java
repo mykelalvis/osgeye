@@ -171,7 +171,7 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
     bundleStore = new BundleStore(client);
     bundleStore.loadBundles();
 
-    out.println("Bundles are loaded. At anytime enter help for a list of available commands.\n");
+    out.println("Bundles are loaded. At anytime enter help for a list of available commands.");
 
     commands = createCommands();
     List<Pair<String, Completor>> completorsPair = new ArrayList<Pair<String, Completor>>();
@@ -192,9 +192,12 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
   {
     String line;
     inLoop = true;
-    while (inLoop && ((line = consoleReader.readLine(prompt)) != null))
+    while (inLoop && ((line = consoleReader.readLine("\n" + prompt)) != null))
     {
-      if (line.trim().length() == 0) continue;
+      if (line.trim().length() == 0)
+      {
+        continue;
+      }
       
       synchronized (evaluateSynchronization)
       {
@@ -208,7 +211,6 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
         
         out.println("");
         dispatchCommand(commands);
-        out.println("");
       }
     }
   }
