@@ -83,6 +83,7 @@ public class BundleStatesCommand extends AbstractCommand
     }
     
     List<Bundle> bundles = bundleStore.getBundles();
+    boolean firstPrint = true;
     for (int i = 0; i < bundleStates.size(); i++)
     {
       BundleState bundleState = bundleStates.get(i);
@@ -99,12 +100,13 @@ public class BundleStatesCommand extends AbstractCommand
       if (matchingBundles.size() > 0)
       {
         Collections.sort(matchingBundles);
-        if (i != 0) printer.println();
+        if (!firstPrint) printer.println();
+        firstPrint = false;
         printer.println(bundleState.getName());
         printer.pushIndent();
         for (Bundle matchingBundle : matchingBundles)
         {
-          printer.println(matchingBundle);
+          printer.println(matchingBundle + (matchingBundle.isFragment() ? " (fragment)" : ""));
         }
         
         printer.popupIndent();
