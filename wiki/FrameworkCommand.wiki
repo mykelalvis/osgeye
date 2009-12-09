@@ -1,5 +1,4 @@
-#summary One-sentence summary of this page.
-
+#summary Prints the current state of the OSGi framework.
 format:
 
 {{{framework <file pipe>?}}}
