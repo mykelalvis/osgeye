@@ -21,6 +21,34 @@ The OSGEye bundle uses the configuration interfaces provided by the OSGi specifi
 
 Use the [http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html ConfigurationAdmin] to inject this service with configuration values. Every time OSGEye receives updated configuration information it restarts the network server with these new parameters (this means all connected clients will be disconnected).
 
+== OSGEye Command Line ==
+
+OSGEye provides a command line interface for interacting remotely with the server. The command line interface is contained within the executable jar file _org.osgeye.console-${version}.jar_. The command line interface can be started up by running:
+
+{{{java -jar org.osgeye.console-${version}.jar <host> <port> <user> <password>}}}
+
+This executes the main class {{{org.osgeye.console.OSGEyeConsole}}}. The arguments passed in include:
+
+ * host - The host name of the server to connect to. This argument is required and if it's not provided the console will prompt you for this.
+
+ * port - The port of the server to connect to. This argument is optional and if not provided the default port 9999 will be used.
+
+ * user - The user name used to authenticate with the server. If not provided anonymous access will be attempted. If the user name is provided a password must be provided too.
+
+ * password - The password used to authenticate with the server. If not provided anonymous success will be attempted.
+
+An example login to the server is:
+
+{{{
+baswerc$ java -jar org.osgeye.console-0.0.1.jar localhost 9999 cbass yoyo    
+OSGEye Console v0.0.1
+Loading bundles. This may take a second or two...
+Bundles are loaded. At anytime enter help for a list of available commands.
+
+cbass@localhost:9999$ 
+}}}
+
+
 == OSGEye JMX ==
 
 When the OSGEye bundle starts up it gets a reference to platform's default [http://java.sun.com/javase/6/docs/api/javax/management/MBeanServer.html MBeanServer] (by calling [http://java.sun.com/javase/6/docs/api/java/lang/management/ManagementFactory.html#getPlatformMBeanServer() this method]) and adds MBeans for monitoring and managing your OSGi platform. OSGEye does not add any type of connectors to this MBeanServer for remote access. Providing remote, secure access to the MBeanServer must be done independently of OSGEye.  
@@ -59,7 +87,7 @@ Every bundle installed in the OSGi runtime will get an associated MBean. The nam
 
  * Fragments - A list of bundles that are attached to this host bundle.
 
- * Headers - A map of strings containing the headers found in the bundle's manifest (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getHeaders() getHeaders]).
+ * Headers - A map of strings containing the headers found in the bundle's manifest (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getHeaders() getHeaders()]).
 
  * Hosts - A list of bundles this fragment bundle is attached to.
 
@@ -81,7 +109,7 @@ Every bundle installed in the OSGi runtime will get an associated MBean. The nam
    * ACTIVE
    * STOPPING 
 
- * SymbolicName - The bundle's symbolic name (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getSymbolicName() getSymbolicName]).
+ * SymbolicName - The bundle's symbolic name (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getSymbolicName() getSymbolicName()]).
 
  * Version - The bundle's version.
 
