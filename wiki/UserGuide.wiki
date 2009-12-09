@@ -224,7 +224,7 @@ Every bundle installed in the OSGi runtime will get an associated MBean. The nam
 
  * ImportedPackages - A list of packages and version ranges that this bundle imports.
 
- * LastModified - The date this bundle was last modified (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getLastModified() getLastModified]).
+ * LastModified - The date this bundle was last modified (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getLastModified() getLastModified()]).
 
  * Location - The install location of the bundle (see [http://www.osgi.org/javadoc/r4v41/org/osgi/framework/Bundle.html#getLocation() getLocation()]).
 
