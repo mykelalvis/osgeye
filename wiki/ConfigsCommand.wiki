@@ -12,7 +12,7 @@ sub-commands:
 
 see:
 
-<a href='http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html#listConfigurations(java.lang.String)'>here</a>
+<a href='http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html#listConfigurations(java.lang.String)'>http://www.osgi.org/javadoc/r4v41/org/osgi/service/cm/ConfigurationAdmin.html#listConfigurations(java.lang.String)</a>
 
 output: 
 
