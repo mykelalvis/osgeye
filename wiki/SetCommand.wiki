@@ -4,7 +4,7 @@ format:
 
 {{{set <type> <level value> <bundle name pattern>? <version range>?}}}
 
-sub-commands:
+options:
     
  * {{{<type>}}} - The type to set. One of:
   * startlevel - The framework start level.
