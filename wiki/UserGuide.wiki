@@ -185,7 +185,7 @@ When the OSGEye bundle starts up it gets a reference to platform's default [http
 OSGEye adds all of its MBeans under the _org.osgeye_ domain. If you connect to a OSGEye managed runtime with JConsole you should see something like:
 
 <br>
-http://osgeye.org/images/jmx1.gif
+http://osgeye.org/images/jmx1.png
 <br>
 
 MBeans are provided for the following OSGi types:
