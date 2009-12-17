@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.osgi.framework.ServiceReference;
 
-public class Service implements Serializable
+public class Service implements Serializable, Comparable<Service>
 {
   static private final long serialVersionUID = -4994623107777929566L;
 
@@ -77,5 +77,10 @@ public class Service implements Serializable
     }
     if (description != null)  text += " - " + description;
     return text;
+  }
+
+  public int compareTo(Service service)
+  {
+    return toString().compareTo(service.toString());
   }
 }
