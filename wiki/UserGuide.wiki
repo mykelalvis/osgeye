@@ -203,7 +203,7 @@ The framework MBean has two readable and writable attributes:
  * StartLevel - The currently start level of the framework.
 
 <br>
-http://osgeye.org/images/jmx2.gif
+http://osgeye.org/images/jmx2.png
 <br>
 
 === Bundle MBeans ===
@@ -243,7 +243,7 @@ Every bundle installed in the OSGi runtime will get an associated MBean. The nam
  * Version - The bundle's version.
 
 <br>
-http://osgeye.org/images/jmx3.gif
+http://osgeye.org/images/jmx3.png
 <br>
 
 Each bundle MBean provides the following operations:
@@ -269,5 +269,5 @@ Each bundle MBean provides the following operations:
  * viewManifest() - Returns the string content of the manifest file.
 
 <br>
-http://osgeye.org/images/jmx4.gif
+http://osgeye.org/images/jmx4.png
 <br>
