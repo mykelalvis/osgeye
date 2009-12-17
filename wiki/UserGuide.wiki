@@ -271,3 +271,12 @@ Each bundle MBean provides the following operations:
 <br>
 http://osgeye.org/images/jmx4.png
 <br>
+
+=== Service MBeans ===
+
+Every service registered in the OSGi runtime will get an associated MBean. Underneath the Services folder of the OSGEye domain will be a list of folders
+
+
+<br>
+http://osgeye.org/images/jmx5.png
+<br>
