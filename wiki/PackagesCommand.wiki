@@ -4,7 +4,7 @@ format:
 
 {{{packages <package name pattern>? <file pipe>?}}} 
 
-sub-commands:
+options:
 
  * {{{<package name pattern>}}} -  The optional pattern used to match against package names. All matched packages will be included in the output. If no pattern is specified or {{{*}}} all packages will be used. For details on what regular expression rules can be used see http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/Pattern.html#sum.
                            
