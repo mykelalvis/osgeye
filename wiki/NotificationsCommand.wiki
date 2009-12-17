@@ -4,7 +4,7 @@ format:
 
 {{{notifications <on|off> <notification type>?}}}
 
-sub-commands:
+options:
 
  * {{{<on|off>}}} - "on" or "off".
     
