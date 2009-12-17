@@ -4,7 +4,7 @@ format:
 
 {{{install <bundle file path>}}}
 
-sub-commands:
+options:
 
  * {{{<bundle file path>}}} - The relative or absolute path for the bundle to install.
 
