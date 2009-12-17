@@ -4,7 +4,7 @@ format:
 
 {{{states <bundle state>* <file pipe>?}}}
 
-sub-commands:
+options:
 
  * {{{<bundle state>}}} - One or more bundle states to include in the list. If not specified all bundle states will be used which include:
   * Active - The bundle is now running.
