@@ -4,7 +4,7 @@ format:
 
 {{{graph <type> bundle name pattern> <version range> <report file>}}}
 
-sub-commands:
+options:
 
  * {{{<type>}}} - Type type of graph to generate. One of:
   * fragments - Generates a graph showing bundle fragments dependencies.
