@@ -5,7 +5,7 @@ public class Constants
   /**
    * OSGEye version.
    */
-  static public final String VERSION = "0.0.1";
+  static public final String VERSION = "0.0.2";
   
   /**
    * The default port used by the OSGEye server if no port
