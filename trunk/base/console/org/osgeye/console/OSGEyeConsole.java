@@ -43,6 +43,7 @@ import org.osgeye.console.commands.descriptions.ManifestCommand;
 import org.osgeye.console.commands.descriptions.NotificationsCommand;
 import org.osgeye.console.commands.descriptions.PackagesCommand;
 import org.osgeye.console.commands.descriptions.ServicesCommand;
+import org.osgeye.console.commands.diagnosis.CanResolveCommand;
 import org.osgeye.console.commands.diagnosis.MissingWiringCommand;
 import org.osgeye.console.commands.diagnosis.UnresolvedCommand;
 import org.osgeye.console.commands.misc.ClearCommand;
@@ -285,6 +286,7 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
 
     commands.add(new UnresolvedCommand(bundleStore));
     commands.add(new MissingWiringCommand(bundleStore));
+    commands.add(new CanResolveCommand(bundleStore));
 
     commands.add(new ExitCommand());
     commands.add(new ClearCommand(consoleReader));
