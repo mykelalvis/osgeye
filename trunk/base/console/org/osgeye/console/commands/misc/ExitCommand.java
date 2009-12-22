@@ -49,7 +49,7 @@ public class ExitCommand extends AbstractCommand
     SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yy hh:mm:ss");
     String timeStarted = formatter.format(new Date(start));
     
-    printer.println("\nOSGEye console session ending. Started at " + timeStarted + " and lasted for " + totalSeconds + " seconds.\n");
+    printer.println("OSGEye console session ending. Started at " + timeStarted + " and lasted for " + totalSeconds + " seconds.\n");
     System.exit(-1);
   }
 }
