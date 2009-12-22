@@ -103,7 +103,7 @@ public class BundleStore implements BundleListener, ServiceListener, FrameworkLi
   
   public synchronized List<String> getBundleNames()
   {
-    return bundleNames;
+    return new ArrayList<String>(bundleNames);
   }
   
   public synchronized List<String> getBundleNames(List<BundleState> states)
@@ -137,77 +137,78 @@ public class BundleStore implements BundleListener, ServiceListener, FrameworkLi
     return (Map)bundleMap.clone();
   }
 
-  public void bundleChanged(BundleEvent event, NetworkServerIdentity serverId)
+  public synchronized void bundleChanged(BundleEvent event, NetworkServerIdentity serverId)
   {
-    synchronized (this)
+    if (bundles == null) return;
+    
+    Bundle bundle = event.getBundle();
+    switch (event.getEventType())
     {
-      if (bundles == null) return;
+      case UNINSTALLED:
+        Bundle bundleToRemove = bundleMap.remove(event.getUninstalledBundleId());
+        if (bundleToRemove != null)
+        {
+          bundles.remove(bundleToRemove);
+          bundleNames.remove(bundleToRemove.getSymbolicName());
+        }
+        break;
       
-      Bundle bundle = event.getBundle();
-      switch (event.getEventType())
-      {
-        case UNINSTALLED:
-          Bundle bundleToRemove = bundleMap.get(event.getUninstalledBundleId());
-          if (bundleToRemove != null) bundles.remove(bundleToRemove);
-          break;
+      default:
+        Bundle updatedBundle = bundleMap.remove(bundle.getId());
+        if (updatedBundle != null)
+        {
+          bundles.remove(updatedBundle);
+        }
         
-        default:
-          if (bundles.contains(bundle))
-          {
-            bundles.remove(bundle);
-          }
-          bundles.add(bundle);
-          break;
-      }
-      
-      Collections.sort(bundles);
+        bundleMap.put(bundle.getId(), bundle);
+        bundles.add(bundle);
+        if (!bundleNames.contains(bundle.getSymbolicName()))
+        {
+          bundleNames.add(bundle.getSymbolicName());
+        }
+        break;
     }
+    
     notifyListeners();
   }
 
-  public void serviceChanged(ServiceEvent event, NetworkServerIdentity serverId)
+  public synchronized void serviceChanged(ServiceEvent event, NetworkServerIdentity serverId)
   {
-    synchronized (this)
+    List<String> interfaces = event.getService().getInterfaces();
+    
+    switch (event.getEventType())
     {
-      List<String> interfaces = event.getService().getInterfaces();
-      
-      switch (event.getEventType())
-      {
-        case UNREGISTERING:
-          serviceInterfaces.removeAll(interfaces);
-          break;
-          
-        default:
-          for (String interfacePackage : interfaces)
+      case UNREGISTERING:
+        serviceInterfaces.removeAll(interfaces);
+        break;
+        
+      default:
+        for (String interfacePackage : interfaces)
+        {
+          if (!serviceInterfaces.contains(interfacePackage))
           {
-            if (!serviceInterfaces.contains(interfacePackage))
-            {
-              serviceInterfaces.add(interfacePackage);
-            }
+            serviceInterfaces.add(interfacePackage);
           }
-          break;
-      }
-      Collections.sort(serviceInterfaces);
+        }
+        break;
     }
+    
     notifyListeners();
   }
 
-  public void frameworkStateChanged(FrameworkEvent event, NetworkServerIdentity serverIdentity)
+  public synchronized void frameworkStateChanged(FrameworkEvent event, NetworkServerIdentity serverIdentity)
   {
-    synchronized (this)
+    switch (event.getEventType())
     {
-      switch (event.getEventType())
-      {
-        case START_LEVEL_CHANGED:
-          int startLevel = ((Number)event.getValue()).intValue();
-          frameworkState = new FrameworkState(startLevel, frameworkState.getInitialBundleStartLevel());
-          break;
-          
-        case BUNDLE_INITIAL_START_LEVEL_CHANGED:
-          int bundleIntitalLevel = ((Number)event.getValue()).intValue();
-          frameworkState = new FrameworkState(frameworkState.getStartLevel(), bundleIntitalLevel);
-          break;
-      }
+      case START_LEVEL_CHANGED:
+        int startLevel = ((Number)event.getValue()).intValue();
+        frameworkState = new FrameworkState(startLevel, frameworkState.getInitialBundleStartLevel());
+        break;
+        
+      case BUNDLE_INITIAL_START_LEVEL_CHANGED:
+        int bundleIntitalLevel = ((Number)event.getValue()).intValue();
+        frameworkState = new FrameworkState(frameworkState.getStartLevel(), bundleIntitalLevel);
+        break;
     }
     notifyListeners();
   }
