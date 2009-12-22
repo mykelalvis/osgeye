@@ -2,7 +2,7 @@ format:
 
     manifest <bundle name pattern>? <pretty|raw>? <version range>? <file pipe>?
 
-sub-commands:
+options:
 
     <bundle name pattern>  The optional pattern used to match against bundles' symbolic name. All matched bundles will be included in the 
                            output. If no pattern is specified or '*' all bundles will be used. For details on what regular expression rules 

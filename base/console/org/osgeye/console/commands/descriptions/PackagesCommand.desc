@@ -2,7 +2,7 @@ format:
 
     packages <package name pattern>? <file pipe>? 
 
-sub-commands:
+options:
 
     <package name pattern> The optional pattern used to match against package names. All matched packages will be included in the output. 
                            If no pattern is specified or '*' all packages will be used. For details on what regular expression rules 
