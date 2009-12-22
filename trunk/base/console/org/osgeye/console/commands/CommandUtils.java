@@ -8,7 +8,6 @@ import java.util.regex.PatternSyntaxException;
 import jline.ConsoleReader;
 
 import org.osgeye.console.BundleStore;
-import org.osgeye.console.utils.CommandPrinter;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleState;
 import org.osgeye.domain.Version;
@@ -211,7 +210,7 @@ public class CommandUtils
         {
           printer.println(bundle);
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
       
       if (requireConfirmation && !confirmation("Confirm " + action + " on the above bundles"))
