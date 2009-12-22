@@ -3,6 +3,7 @@
   <property file="project.properties" />
 
 	<property name="bundleJar" value="${bundle.name}-${bundle.version}.jar"/>
+  <property name="clientJar" value="${bundle.name}-${bundle.version}.client.jar"/>
   <property name="consoleJar" value="${bundle.name}.console-${bundle.version}.jar"/>
 	
   <taskdef resource="aQute/bnd/ant/taskdef.properties" classpath="lib/bnd-0.0.249.jar"/> 
@@ -29,6 +30,16 @@
     <bnd classpath="classes" files="project.bnd" output="dist/${bundleJar}" /> 
   </target>
 
+  <target name="compileClientLib">
+    <mkdir dir="classes" />
+    <javac srcdir="src" destdir="classes" excludes="org/osgeye/server/**" classpathref="project.classpath" source="1.5" debug="true" nowarn="true" />
+  </target>
+
+  <target name="buildClientLib" description="Create bundle file" depends="clean,compileClientLib">
+    <mkdir dir="dist"/>
+    <jar basedir="classes" destfile="dist/${clientJar}"/>
+  </target>
+
   <target name="compileConsole">
     <mkdir dir="classes" />
     <javac srcdir="src:console" destdir="classes" excludes="org/osgeye/server/**" classpathref="project.classpath" source="1.5" debug="true" nowarn="true"/>
@@ -36,7 +47,6 @@
 
 	<target name="buildConsole" description="Build console jar file." depends="clean,compileConsole">
 		<unjar src="lib/jline-0.9.94.jar" dest="classes"/>
-    <unjar src="lib/commons-io-1.4.jar" dest="classes"/>
 		<copy todir="classes">
 		  <fileset dir="src" excludes="org/osgeye/server/**"/>
       <fileset dir="console"/>
@@ -45,7 +55,7 @@
 		<jar manifest="conf/manifest.mf" basedir="classes" destfile="dist/${consoleJar}"/>
   </target>
 	
-	<target name="build" description="Create bundle and console jar files." depends="buildBundle,buildConsole"/>
+	<target name="build" description="Create bundle and console jar files." depends="buildBundle,buildClientLib,buildConsole"/>
 
   <target name="release" description="Create release zip file" depends="build">
   	<mkdir dir="dist/release/osgeye-${bundle.version}"/>
@@ -56,9 +66,9 @@
     <copy file="lib/slf4j-simple-1.5.10.jar" todir="dist/release/osgeye-${bundle.version}"/>
     <copy file="lib/slf4j-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
     <copy file="lib/jline-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
-    <copy file="lib/commons-io-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
     <copy file="lib/osgeye-license.txt" todir="dist/release/osgeye-${bundle.version}"/>
     <copy file="docs/README.txt" todir="dist/release/osgeye-${bundle.version}"/>
+    <copy file="docs/CHANGES.txt" todir="dist/release/osgeye-${bundle.version}"/>
 
   	<zip destfile="dist/${bundle.name}-${bundle.version}.zip" basedir="dist/release" />
 	</target>
