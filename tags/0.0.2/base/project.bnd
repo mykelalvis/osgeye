@@ -1,0 +1,7 @@
+-include: project.properties
+Bundle-SymbolicName: ${bundle.name}
+Bundle-Name: ${bundle.name}
+Bundle-Version: ${bundle.version}
+Bundle-Activator: org.osgeye.server.osgi.BundleActivator
+Private-Package: *
+Import-Package: *
