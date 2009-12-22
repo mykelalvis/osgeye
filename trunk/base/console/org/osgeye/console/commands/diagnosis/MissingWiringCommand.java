@@ -15,9 +15,8 @@ import org.osgeye.console.completors.BundleNamesCompletor;
 import org.osgeye.console.completors.VersionRangeCompletor;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleState;
-import org.osgeye.domain.manifest.ImportPackagesDeclaration;
+import org.osgeye.domain.ImportedPackage;
 import org.osgeye.domain.manifest.Resolution;
-import org.osgeye.utils.Pair;
 
 public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
 {
@@ -34,7 +33,7 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
   public MissingWiringCommand(BundleStore bundleStore)
   {
     this.bundleStore = bundleStore;
-    diagnosisUtils = new DiagnosisUtils(bundleStore);
+    diagnosisUtils = new DiagnosisUtils();
   }
 
   @Override
@@ -78,6 +77,8 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
     
     boolean firstPrint = true;
 
+    List<Bundle> allBundles = bundleStore.getBundles();
+    
     if (printMandatory)
     {
       /*
@@ -88,7 +89,7 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
       {
         if (bundle.getState() == BundleState.INSTALLED)
         {
-          List<Pair<ImportPackagesDeclaration, String>> missingPackages = diagnosisUtils.findMissingImports(bundle, true, printOptional);
+          List<ImportedPackage> missingPackages = diagnosisUtils.findMissingImports(bundle.getManifest(), true, printOptional, allBundles);
           if (missingPackages.size() > 0)
           {
             if (!firstPrint) printer.println();
@@ -97,11 +98,11 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
             printer.pushIndent();
             
             boolean firstLoopPrinted = false;
-            for (Pair<ImportPackagesDeclaration, String> missingPackage : missingPackages)
+            for (ImportedPackage missingPackage : missingPackages)
             {
-              if (missingPackage.x.getResolution() == Resolution.MANDATORY)
+              if (missingPackage.getDeclaration().getResolution() == Resolution.MANDATORY)
               {
-                printer.println(missingPackage.y + " " + missingPackage.x.getVersion());
+                printer.println(missingPackage);
                 firstLoopPrinted = true;
               }
             }
@@ -109,20 +110,20 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
             boolean secondLoopPrinted = false;
             if (printOptional)
             {
-              for (Pair<ImportPackagesDeclaration, String> missingPackage : missingPackages)
+              for (ImportedPackage missingPackage : missingPackages)
               {
-                if (missingPackage.x.getResolution() == Resolution.OPTIONAL)
+                if (missingPackage.getDeclaration().getResolution() == Resolution.OPTIONAL)
                 {
                   if (firstLoopPrinted && !secondLoopPrinted)
                   {
                     printer.println();
                     secondLoopPrinted = true;
                   }
-                  printer.println(missingPackage.y + " " + missingPackage.x.getVersion() + " ?");
+                  printer.println(missingPackage);
                 }
               }
             }
-            printer.popupIndent();
+            printer.popIndent();
           }
         }
       }
@@ -135,7 +136,9 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
         if (bundle.getState() != BundleState.INSTALLED)
         {
 
-          List<Pair<ImportPackagesDeclaration, String>> missingPackages = diagnosisUtils.findMissingImports(bundle, false, true);  // Resolved bundles can only have missing optional package imports.
+          List<ImportedPackage> missingPackages = diagnosisUtils.findMissingImports(bundle.getManifest(), 
+              false, true, allBundles);  // Resolved bundles can only have missing optional package imports.
+
           if (missingPackages.size() > 0)
           {
             if (!firstPrint) printer.println();
@@ -143,12 +146,12 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
             printer.println(bundle + " (" + bundle.getState() + ")");
             printer.pushIndent();
 
-            for (Pair<ImportPackagesDeclaration, String> missingPackage : missingPackages)
+            for (ImportedPackage missingPackage : missingPackages)
             {
-              printer.println(missingPackage.y + " " + missingPackage.x.getVersion() + " ?");
+              printer.println(missingPackage);
             }
     
-            printer.popupIndent();
+            printer.popIndent();
           }
         }
       }
