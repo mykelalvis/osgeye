@@ -82,7 +82,7 @@ public class HelpCommand extends AbstractCommand
     if (subcommands.size() == 0)
     {
       printer.println("OSGEye Console, v" + Constants.VERSION);
-      printer.println("usage: <command> [options] <args>");
+      printer.println("usage: <command> <options>");
       printer.println("Type 'help <command>' for help on a specific command.");
       printer.println("\nAvailable commands:");
       
@@ -96,7 +96,7 @@ public class HelpCommand extends AbstractCommand
         {
           printer.printFixedSpaceLn(command.getName(), 15, command.getShortDescription());
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
     }
     else
