@@ -1,6 +1,5 @@
 package org.osgeye.console.commands.diagnosis;
 
-
 import static org.osgeye.console.commands.CommandUtils.*;
 
 import java.util.List;
@@ -11,8 +10,7 @@ import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleState;
-import org.osgeye.domain.manifest.ImportPackagesDeclaration;
-import org.osgeye.utils.Pair;
+import org.osgeye.domain.ImportedPackage;
 
 public class UnresolvedCommand extends AbstractExecuteOnBundlesCommand
 {
@@ -23,7 +21,7 @@ public class UnresolvedCommand extends AbstractExecuteOnBundlesCommand
   {
     super(BundleState.INSTALLED);
     this.bundleStore = bundleStore;
-    diagnosisUtils = new DiagnosisUtils(bundleStore);
+    diagnosisUtils = new DiagnosisUtils();
   }
 
   @Override
@@ -59,22 +57,22 @@ public class UnresolvedCommand extends AbstractExecuteOnBundlesCommand
       printer.pushIndent();
       boolean foundIssue = false;
       
-      List<Pair<ImportPackagesDeclaration, String>> missingPackages = diagnosisUtils.findMissingImports(bundle, true, false);
+      List<ImportedPackage> missingPackages = diagnosisUtils.findMissingImports(bundle.getManifest(), true, false, bundleStore.getBundles());
       if (missingPackages.size() > 0)
       {
         foundIssue = true;
         printer.println("Missing Mandatory Package Imports:");
         printer.pushIndent();
 
-        for (Pair<ImportPackagesDeclaration, String> missingPackage : missingPackages)
+        for (ImportedPackage missingPackage : missingPackages)
         {
-          printer.println(missingPackage.y + " " + missingPackage.x.getVersion());
+          printer.println(missingPackage);
         }
 
-        printer.popupIndent();
+        printer.popIndent();
       }
       
-      List<UsesConflict> usesConflicts = diagnosisUtils.findUsesConflicts(bundle);
+      List<UsesConflict> usesConflicts = diagnosisUtils.findUsesConflicts(bundle, bundleStore.getBundles());
       if (usesConflicts.size() > 0)
       {
         foundIssue = true;
@@ -83,18 +81,18 @@ public class UnresolvedCommand extends AbstractExecuteOnBundlesCommand
         
         for (UsesConflict usesConflict : usesConflicts)
         {
-          printer.println(usesConflict.exportedImport.y + " " + usesConflict.exportedImport.x.getVersion());
+          printer.println(usesConflict.exportedImport);
           printer.pushIndent();
           
           printer.println("Exporting Bundle: " + usesConflict.exportBundle);
           printer.println("Exported Package: " + usesConflict.exportedPackage);
           printer.println("Exported Package Uses: " + usesConflict.usesWiredExport);
-          printer.println("Conflicting Import: " + usesConflict.usesConflictImport.y + " " + usesConflict.usesConflictImport.x.getVersion());
+          printer.println("Conflicting Import: " + usesConflict.usesConflictImport);
           
-          printer.popupIndent();
+          printer.popIndent();
         }
         
-        printer.popupIndent();
+        printer.popIndent();
       }
       
       if (!foundIssue)
@@ -102,7 +100,7 @@ public class UnresolvedCommand extends AbstractExecuteOnBundlesCommand
         printer.println("No Issues Found");
       }
       
-      printer.popupIndent();
+      printer.popIndent();
     }
   }
 }
