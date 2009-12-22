@@ -8,14 +8,12 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import jline.ArgumentCompletor;
 import jline.Completor;
 import jline.SimpleCompletor;
 
-import org.apache.commons.io.IOUtils;
 import org.osgeye.console.completors.PipeToFileCompletor;
 import org.osgeye.console.completors.SerialCompletor;
-import org.osgeye.console.utils.CommandPrinter;
+import org.osgeye.utils.IOUtils;
 
 abstract public class AbstractCommand implements Comparable<AbstractCommand>
 {
@@ -127,7 +125,7 @@ abstract public class AbstractCommand implements Comparable<AbstractCommand>
     try
     {
       InputStream descIs = getClass().getResourceAsStream(descriptionResource);
-      return IOUtils.toString(descIs);
+      return IOUtils.getContentAsString(descIs);
     }
     catch (Exception exc)
     {
