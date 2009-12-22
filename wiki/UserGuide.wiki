@@ -168,7 +168,7 @@ The console commands are broken up into the following categories:
  * [UninstallCommand uninstall]
 
 ==== Diagnosis Commands ====
-
+ * [CanResolveCommand canresolve]
  * [MissingCommand missing]
  * [UnresolvedCommand unresolved]
 
