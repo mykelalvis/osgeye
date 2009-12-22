@@ -2,7 +2,7 @@ format:
 
     ls <type>? <pattern>? 
 
-sub-commands:
+options:
 
     <type>     The type to list. Either "bundles" or "services". If not specified "bundles" will be used as the default.
                            

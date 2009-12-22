@@ -2,7 +2,7 @@ format:
 
     framework <file pipe>?
 
-sub-commands:
+options:
 
     <file pipe>    The output of this command can be piped to a file by using the syntax "> file path" as the last arguments.
 

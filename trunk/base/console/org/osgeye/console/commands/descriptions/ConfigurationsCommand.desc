@@ -2,7 +2,7 @@ format:
 
     configs <filter>? <file pipe>?
 
-sub-commands:
+options:
 
     <filter>     The filter string used to retrieve matching bundle configurations. This is the same filter used on the ConfigurationAdmin.listConfigurations and
                  should be an LDAP type filter with the properties as parameters. If not specified all bundle configurations will be displayed.

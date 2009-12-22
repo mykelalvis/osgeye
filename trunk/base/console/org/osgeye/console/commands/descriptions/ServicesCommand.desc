@@ -2,7 +2,7 @@ format:
 
     services <interface name pattern>? <file pipe>?
 
-sub-commands:
+options:
 
     <interface name pattern>  The optional pattern used to match against services' registered interface (or class) names. All matched interface 
                               names will be included in the output. If no pattern is specified or '*' all services will be used. For details on
