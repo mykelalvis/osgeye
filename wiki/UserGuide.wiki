@@ -53,15 +53,15 @@ Once logged in you can execute the _help_ command to see what other commands are
 {{{
 cbass@localhost:9999$ help
 
-OSGEye Console, v0.0.1
-usage: <command> [options] <args>
+OSGEye Console, v0.0.2
+usage: <command> <options>
 Type 'help <command>' for help on a specific command.
 
 Available commands:
     
     Descrptions
         bundles         Prints details on matching bundles.
-        configs         Prints bundle configurations.
+        configs         Prints configurations.
         exports         Displays the exported package wiring details for matching bundles.
         framework       Prints the current state of the OSGi framework.
         graph           Generates DOT based graphs.
@@ -83,6 +83,7 @@ Available commands:
         uninstall       Uninstalls all matching bundles (after confirmation).
     
     Diagnosis
+        canresolve      Attempts to determine if a manifest file can resolve against the current system.
         missing         Displays packages for bundles that are not wired.
         unresolved      Attempts to diagnose why bundles in the INSTALLED state weren't resolved.
     
