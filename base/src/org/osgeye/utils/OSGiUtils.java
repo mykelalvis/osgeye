@@ -7,7 +7,6 @@ import java.util.Dictionary;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.osgeye.domain.ExportedPackage;
 import org.osgeye.domain.manifest.ImportPackagesDeclaration;
 import org.osgeye.domain.manifest.Manifest;
 import org.osgi.framework.Bundle;
@@ -39,22 +38,31 @@ public class OSGiUtils
         File bundleFile = new File(bundleUrl.getFile());
         if (bundleFile.isFile())
         {
-          ZipFile bundleZipFile = new ZipFile(bundleFile);
-          ZipEntry entry = bundleZipFile.getEntry("META-INF/MANIFEST.MF");
-          if (entry == null)
-          {
-            entry = bundleZipFile.getEntry("meta-inf/manifest.mf");
-          }
-
-          if (entry != null)
-          {
-            return new String(IOUtils.getContents(bundleZipFile.getInputStream(entry)));
-          }
+          return getManifest(bundleFile);
         }
       }
     }
     
     return null;
+  }
+  
+  static public final String getManifest(File bundleFile) throws IOException
+  {
+    ZipFile bundleZipFile = new ZipFile(bundleFile);
+    ZipEntry entry = bundleZipFile.getEntry("META-INF/MANIFEST.MF");
+    if (entry == null)
+    {
+      entry = bundleZipFile.getEntry("meta-inf/manifest.mf");
+    }
+
+    if (entry != null)
+    {
+      return IOUtils.getContentAsString(bundleZipFile.getInputStream(entry));
+    }
+    else
+    {
+      return null;
+    }
   }
   
   /**
