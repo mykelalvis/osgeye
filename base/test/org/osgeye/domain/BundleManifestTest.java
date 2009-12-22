@@ -21,6 +21,5 @@ public class BundleManifestTest
     assertTrue(manifest.getImportDeclarations().size() > 0);
     
     assertEquals(manifest.getFile(), manifestFile);
-    System.out.println(manifest.getFile());
   }
 }
