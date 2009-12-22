@@ -76,9 +76,9 @@ public class ServicesCommand extends AbstractExecuteOnServiceCommand
         {
           printer.println("Vendor: " + service.getVendor());
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
-      printer.popupIndent();
+      printer.popIndent();
     }
     
   }

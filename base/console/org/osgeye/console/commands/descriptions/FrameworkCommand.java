@@ -47,7 +47,7 @@ public class FrameworkCommand extends AbstractCommand
     printer.pushIndent();
     printer.println("Start Level: " + frameworkState.getStartLevel());
     printer.println("Initial Bundle Start Level: " + frameworkState.getInitialBundleStartLevel());
-    printer.popupIndent();
+    printer.popIndent();
   }
 
 }

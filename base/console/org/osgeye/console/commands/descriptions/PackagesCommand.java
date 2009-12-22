@@ -157,7 +157,7 @@ public class PackagesCommand extends AbstractCommand
             ImportPackagesDeclaration importDeclaration = OSGiUtils.findImportDeclaration(importingBundle, exportedPackage.getName());
             printer.println(importingBundle + ((importDeclaration == null) ? "" : (" " + importDeclaration.getVersion())));
           }
-          printer.popupIndent();
+          printer.popIndent();
         }
         
         List<Bundle> importBundles = packageMap.get(packageName).y;
@@ -179,9 +179,9 @@ public class PackagesCommand extends AbstractCommand
             ImportPackagesDeclaration importDeclaration = OSGiUtils.findImportDeclaration(unwiredBundle, packageName);
             printer.println(unwiredBundle + ((importDeclaration == null) ? "" : (" " + importDeclaration.getVersion())));
           }
-          printer.popupIndent();
+          printer.popIndent();
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
     }
   }

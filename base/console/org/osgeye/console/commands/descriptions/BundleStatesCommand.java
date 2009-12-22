@@ -109,7 +109,7 @@ public class BundleStatesCommand extends AbstractCommand
           printer.println(matchingBundle + (matchingBundle.isFragment() ? " (fragment)" : ""));
         }
         
-        printer.popupIndent();
+        printer.popIndent();
       }
     }
   }

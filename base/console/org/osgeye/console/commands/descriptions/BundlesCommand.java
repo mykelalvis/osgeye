@@ -64,7 +64,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         {
           printer.println(bundleStore.getBundle(bundleId));
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
       
       if (bundle.isFragment())
@@ -75,7 +75,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         {
           printer.println(bundleStore.getBundle(bundleId));
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
       
       if (bundle.getServices().size() > 0)
@@ -89,7 +89,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
             printer.println(serviceInterface);
           }
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
       
       if (bundle.getRequiredBundleIds().size() > 0)
@@ -100,7 +100,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         {
           printer.println(bundleStore.getBundle(bundleId));
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
       
       if (bundle.getExportedPackages().size() > 0)
@@ -111,7 +111,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         {
           printer.println(exportedPackage.getName() + " " + exportedPackage.getVersion());
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
 
       Manifest manifest = bundle.getManifest();
@@ -126,7 +126,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
             printer.println(importedPackage + " " + importedDeclaration.getVersion() + ((importedDeclaration.getResolution() == Resolution.OPTIONAL) ? " ?" : ""));
           }
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
 
       printer.clearIndent();

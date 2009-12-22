@@ -166,7 +166,7 @@ public class NotificationsCommand extends AbstractCommand implements BundleListe
       printer.pushIndent();
       printer.println();
       printer.println("Notification: " + message);
-      printer.popupIndent();
+      printer.popIndent();
     }
   }
 }
