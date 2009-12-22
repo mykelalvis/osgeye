@@ -81,9 +81,9 @@ public class ExportsCommand extends AbstractExecuteOnBundlesCommand
 
           printer.println(importingBundle + ((importDeclaration == null) ? "" : (" " + importDeclaration.getVersion())));
         }
-        printer.popupIndent();
+        printer.popIndent();
       }
-      printer.popupIndent();
+      printer.popIndent();
     }
   }
 }
