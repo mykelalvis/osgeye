@@ -11,17 +11,24 @@ import java.net.URL;
  * Collection of IO related utilities used throughout the project.
  * 
  * @author Corey Baswell
- * @since 1.0
  */
 public class IOUtils
 {
-  static public String getContentAsString(String classpathRelativePath) throws IOException
+  
+  /**
+   * Reads in the input stream and returns the contents as a String.
+   * 
+   * @param inStream The input stream to read.
+   * @return String contents of the given input stream.
+   * @throws IOException If the input stream cannot be read.
+   */
+  static public String getContentAsString(InputStream inStream) throws IOException
   {
-    return new String(getContents(IOUtils.class.getResourceAsStream(classpathRelativePath)));
+    return new String(getContents(inStream));
   }
   
   /**
-   * Reads in the resource for the given url and returns the contents as String.
+   * Reads in the resource for the given url and returns the contents as a String.
    * 
    * @param url The URL resource to load.
    * @return String contents of the given url resource.
