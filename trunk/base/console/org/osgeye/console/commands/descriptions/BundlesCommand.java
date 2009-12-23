@@ -11,6 +11,7 @@ import org.osgeye.console.commands.InvalidCommandException;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.ExportedPackage;
 import org.osgeye.domain.Service;
+import org.osgeye.domain.ServiceClass;
 import org.osgeye.domain.manifest.ImportPackagesDeclaration;
 import org.osgeye.domain.manifest.Manifest;
 import org.osgeye.domain.manifest.Resolution;
@@ -84,9 +85,9 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         printer.pushIndent();
         for (Service service : bundle.getServices())
         {
-          for (String serviceInterface : service.getInterfaces())
+          for (ServiceClass serviceClass : service.getRegisteredClasses())
           {
-            printer.println(serviceInterface);
+            printer.println(serviceClass);
           }
         }
         printer.popIndent();

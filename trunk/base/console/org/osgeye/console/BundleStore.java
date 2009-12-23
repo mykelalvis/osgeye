@@ -17,6 +17,7 @@ import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleState;
 import org.osgeye.domain.FrameworkState;
 import org.osgeye.domain.Service;
+import org.osgeye.domain.ServiceClass;
 import org.osgeye.events.BundleEvent;
 import org.osgeye.events.FrameworkEvent;
 import org.osgeye.events.ServiceEvent;
@@ -70,11 +71,12 @@ public class BundleStore implements BundleListener, ServiceListener, FrameworkLi
         bundleMap.put(bundle.getId(), bundle);
         for (Service service : bundle.getServices())
         {
-          for (String serviceInterface : service.getInterfaces())
+          for (ServiceClass serviceClass : service.getRegisteredClasses())
           {
-            if (!serviceInterfaces.contains(serviceInterface))
+            String className = serviceClass.getClassName();
+            if (!serviceInterfaces.contains(className))
             {
-              serviceInterfaces.add(serviceInterface);
+              serviceInterfaces.add(className);
             }
           }
         }
@@ -174,20 +176,21 @@ public class BundleStore implements BundleListener, ServiceListener, FrameworkLi
 
   public synchronized void serviceChanged(ServiceEvent event, NetworkServerIdentity serverId)
   {
-    List<String> interfaces = event.getService().getInterfaces();
+    List<ServiceClass> serviceClasses = event.getService().getRegisteredClasses();
     
     switch (event.getEventType())
     {
       case UNREGISTERING:
-        serviceInterfaces.removeAll(interfaces);
+        serviceInterfaces.removeAll(serviceClasses);
         break;
         
       default:
-        for (String interfacePackage : interfaces)
+        for (ServiceClass serviceClass : serviceClasses)
         {
-          if (!serviceInterfaces.contains(interfacePackage))
+          String className = serviceClass.getClassName();
+          if (!serviceInterfaces.contains(className))
           {
-            serviceInterfaces.add(interfacePackage);
+            serviceInterfaces.add(className);
           }
         }
         break;
