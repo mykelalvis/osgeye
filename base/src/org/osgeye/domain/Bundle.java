@@ -61,7 +61,7 @@ public class Bundle implements Comparable<Bundle>, Serializable
     {
       for (ServiceReference serviceRef : serviceRefs)
       {
-        services.add(new Service(this, serviceRef));
+        services.add(new Service(this, serviceRef, bundle));
       }
     }
     

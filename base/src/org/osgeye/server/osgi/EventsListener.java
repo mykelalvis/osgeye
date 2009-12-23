@@ -74,7 +74,7 @@ public class EventsListener implements BundleListener, ServiceListener, Framewor
     ServiceReference serviceRef = event.getServiceReference();
     org.osgi.framework.Bundle osgiBundle = serviceRef.getBundle();
     Bundle bundle = bundleCreator.createBundle(osgiBundle);
-    Service service = new Service(bundle, serviceRef);
+    Service service = new Service(bundle, serviceRef, osgiBundle);
     ServiceEventType eventType = ServiceEventType.fromOsgiValue(event.getType());
     eventDispatcher.dispatchEvent(new ServiceEvent(service, eventType));
   }

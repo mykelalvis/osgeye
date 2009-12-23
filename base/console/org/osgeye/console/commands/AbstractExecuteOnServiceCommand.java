@@ -14,6 +14,7 @@ import org.osgeye.console.BundleStore;
 import org.osgeye.console.completors.ServiceNamesCompletor;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.Service;
+import org.osgeye.domain.ServiceClass;
 
 abstract public class AbstractExecuteOnServiceCommand extends AbstractCommand
 {
@@ -64,25 +65,26 @@ abstract public class AbstractExecuteOnServiceCommand extends AbstractCommand
     {
       for (Service service : bundle.getServices())
       {
-        List<String> interfaces = service.getInterfaces();
-        for (String serviceInterface : interfaces)
+        List<ServiceClass> serviceClasses = service.getRegisteredClasses();
+        for (ServiceClass serviceClass : serviceClasses)
         {
+          String className = serviceClass.getClassName();
           List<Service> services;
-          if (serviceMap.containsKey(serviceInterface))
+          if (serviceMap.containsKey(serviceClass))
           {
-            services = serviceMap.get(serviceInterface);
+            services = serviceMap.get(serviceClass);
           }
           else
           {
             services = new ArrayList<Service>();
-            serviceMap.put(serviceInterface, services);
+            serviceMap.put(className, services);
           }
           services.add(service);
           
           
-          if (serviceInterface.matches(interfacePattern) && !matchedInterfaces.contains(serviceInterface))
+          if (className.matches(interfacePattern) && !matchedInterfaces.contains(className))
           {
-            matchedInterfaces.add(serviceInterface);
+            matchedInterfaces.add(className);
           }
         }
       }
