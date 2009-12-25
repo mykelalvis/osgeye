@@ -16,6 +16,7 @@ import jline.ConsoleReader;
 import jline.History;
 
 import org.osgeye.Constants;
+import org.osgeye.client.BundleStore;
 import org.osgeye.client.ServerListener;
 import org.osgeye.client.events.ServerEvent;
 import org.osgeye.client.network.NetworkClient;

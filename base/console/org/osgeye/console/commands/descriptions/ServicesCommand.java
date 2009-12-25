@@ -3,7 +3,7 @@ package org.osgeye.console.commands.descriptions;
 import java.util.List;
 import java.util.Map;
 
-import org.osgeye.console.BundleStore;
+import org.osgeye.client.BundleStore;
 import org.osgeye.console.commands.AbstractExecuteOnServiceCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

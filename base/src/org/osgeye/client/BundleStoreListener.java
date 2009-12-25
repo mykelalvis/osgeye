@@ -1,4 +1,4 @@
-package org.osgeye.console;
+package org.osgeye.client;
 
 
 public interface BundleStoreListener

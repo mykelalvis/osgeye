@@ -10,7 +10,7 @@ import java.util.Map;
 
 import jline.Completor;
 
-import org.osgeye.console.BundleStore;
+import org.osgeye.client.BundleStore;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

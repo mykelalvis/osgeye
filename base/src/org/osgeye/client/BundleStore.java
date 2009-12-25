@@ -1,4 +1,4 @@
-package org.osgeye.console;
+package org.osgeye.client;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
@@ -7,10 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.osgeye.client.BundleListener;
-import org.osgeye.client.FrameworkListener;
-import org.osgeye.client.RemoteServerException;
-import org.osgeye.client.ServiceListener;
 import org.osgeye.client.network.NetworkClient;
 import org.osgeye.client.network.NetworkServerIdentity;
 import org.osgeye.domain.Bundle;
@@ -25,7 +21,6 @@ import org.osgeye.events.ServiceEvent;
 public class BundleStore implements BundleListener, ServiceListener, FrameworkListener
 {
   private NetworkClient client;
-  
   
   private FrameworkState frameworkState;
   private List<Bundle> bundles;

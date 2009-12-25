@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.osgeye.console.BundleStore;
+import org.osgeye.client.BundleStore;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.Service;
 import org.osgeye.domain.ServiceClass;

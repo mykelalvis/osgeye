@@ -7,7 +7,7 @@ import java.util.regex.PatternSyntaxException;
 
 import jline.ConsoleReader;
 
-import org.osgeye.console.BundleStore;
+import org.osgeye.client.BundleStore;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleState;
 import org.osgeye.domain.Version;
