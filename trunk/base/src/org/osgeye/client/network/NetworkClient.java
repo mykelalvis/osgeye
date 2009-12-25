@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -331,11 +332,31 @@ public class NetworkClient implements Runnable
     assertConnected();
     return sendRequest(new GetBundleIds(symbolicNamePattern, withinRange), BundleIdsResponse.class).getBundleIds();
   }
-  
+
+  public void startBundle(Long bundleId) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    startBundle(bundleId, null);
+  }
+
+  public void startBundle(Long bundleId, StartBundleOptions startOptions) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    startBundles(Arrays.asList(bundleId), startOptions);
+  }
+
   public void startBundles(List<Long> bundleIds, StartBundleOptions startOptions) throws ConnectException, IllegalStateException, RemoteServerException
   {
     assertConnected();
     sendRequest(new StartBundlesRequest(bundleIds, startOptions), VoidResponse.class);
+  }
+
+  public void stopBundle(Long bundleId) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    stopBundles(Arrays.asList(bundleId), null);
+  }
+
+  public void stopBundle(Long bundleId, StopBundleOptions stopOptions) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    stopBundles(Arrays.asList(bundleId), stopOptions);
   }
   
   public void stopBundles(List<Long> bundleIds, StopBundleOptions stopOptions) throws ConnectException, IllegalStateException, RemoteServerException
@@ -343,7 +364,12 @@ public class NetworkClient implements Runnable
     assertConnected();
     sendRequest(new StopBundlesRequest(bundleIds, stopOptions), VoidResponse.class);
   }
-  
+
+  public void uninstallBundle(Long bundleId) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    uninstallBundles(Arrays.asList(bundleId));
+  }
+
   public void uninstallBundles(List<Long> bundleIds) throws ConnectException, IllegalStateException, RemoteServerException
   {
     assertConnected();
