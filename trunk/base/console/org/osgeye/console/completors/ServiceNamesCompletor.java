@@ -3,8 +3,8 @@ package org.osgeye.console.completors;
 import static org.osgeye.utils.UtilityMethods.*;
 import jline.SimpleCompletor;
 
-import org.osgeye.console.BundleStore;
-import org.osgeye.console.BundleStoreListener;
+import org.osgeye.client.BundleStore;
+import org.osgeye.client.BundleStoreListener;
 
 public class ServiceNamesCompletor extends SimpleCompletor implements BundleStoreListener
 {

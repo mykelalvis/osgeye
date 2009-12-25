@@ -9,8 +9,8 @@ import jline.ArgumentCompletor;
 import jline.Completor;
 import jline.NullCompletor;
 
+import org.osgeye.client.BundleStore;
 import org.osgeye.client.network.NetworkClient;
-import org.osgeye.console.BundleStore;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

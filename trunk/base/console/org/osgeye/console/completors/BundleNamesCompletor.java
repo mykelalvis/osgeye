@@ -6,8 +6,8 @@ import java.util.List;
 
 import jline.SimpleCompletor;
 
-import org.osgeye.console.BundleStore;
-import org.osgeye.console.BundleStoreListener;
+import org.osgeye.client.BundleStore;
+import org.osgeye.client.BundleStoreListener;
 import org.osgeye.domain.BundleState;
 
 public class BundleNamesCompletor extends SimpleCompletor implements BundleStoreListener

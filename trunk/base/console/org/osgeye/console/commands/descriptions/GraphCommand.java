@@ -10,8 +10,8 @@ import jline.Completor;
 import jline.FileNameCompletor;
 import jline.SimpleCompletor;
 
+import org.osgeye.client.BundleStore;
 import org.osgeye.client.graphs.DotGraphGenerator;
-import org.osgeye.console.BundleStore;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

@@ -10,7 +10,7 @@ import jline.Completor;
 import jline.FileNameCompletor;
 import jline.SimpleCompletor;
 
-import org.osgeye.console.BundleStore;
+import org.osgeye.client.BundleStore;
 import org.osgeye.console.completors.ServiceNamesCompletor;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.Service;
