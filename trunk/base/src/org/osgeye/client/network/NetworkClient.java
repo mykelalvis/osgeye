@@ -399,6 +399,20 @@ public class NetworkClient implements Runnable
     assertConnected();
     sendRequest(new SetBundlesStartLevelRequest(startLevel, bundleIds), VoidResponse.class);
   }
+
+  /**
+   * Forces the update (replacement) or removal of packages exported by the specified bundle. 
+   * 
+   * @param bundleId The bundle to refresh packages for.
+   * @throws ConnectException
+   * @throws IllegalStateException
+   * @throws RemoteServerException
+   */
+  public void refreshPackages(Long bundleId) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    refreshPackages(Arrays.asList(bundleId));
+  }
+
   
   /**
    * Forces the update (replacement) or removal of packages exported by the specified bundles. 
