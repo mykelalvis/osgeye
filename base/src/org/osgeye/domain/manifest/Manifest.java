@@ -170,7 +170,7 @@ public class Manifest implements Serializable
   private transient List<String> categories;
   private transient List<ExportPackagesDeclaration> exportDeclarations;
   private transient List<ImportPackagesDeclaration> importDeclarations;
-  private transient String nativeCode;
+  private transient List<NativeCodeDeclaration> nativeCodeDeclarations;
   private transient String requiredExecutionEnvironment;
   private transient String symbolicName;
   private transient String updateLocation;
@@ -325,13 +325,21 @@ public class Manifest implements Serializable
     return exportDeclarations;
   }
   
-  public String getNativeCode()
+  public List<NativeCodeDeclaration> getNativeCodeDeclarations()
   {
-    if ((nativeCode == null) && headerProperties.containsKey(NATIVE_CODE))
+    if (nativeCodeDeclarations == null)
     {
-      nativeCode = headerProperties.get(NATIVE_CODE);
+      nativeCodeDeclarations = new ArrayList<NativeCodeDeclaration>();
+      if (headerProperties.containsKey(NATIVE_CODE))
+      {
+        List<String> declarations = parseDeclarations(headerProperties.get(NATIVE_CODE));
+        for (String declaration : declarations)
+        {
+          nativeCodeDeclarations.add(new NativeCodeDeclaration(declaration));
+        }
+      }
     }
-    return nativeCode;
+    return nativeCodeDeclarations;
   }
 
   public String getRequiredExecutionEnvironment()
