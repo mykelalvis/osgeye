@@ -1,4 +1,4 @@
-package org.osgeye.console.commands.diagnosis;
+package org.osgeye.client.diagnosis;
 
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.ExportedPackage;

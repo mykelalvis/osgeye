@@ -1,4 +1,4 @@
-package org.osgeye.console.commands.diagnosis;
+package org.osgeye.client.diagnosis;
 
 import java.util.ArrayList;
 import java.util.Collections;

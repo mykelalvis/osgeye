@@ -10,6 +10,8 @@ import jline.Completor;
 import jline.FileNameCompletor;
 
 import org.osgeye.client.BundleStore;
+import org.osgeye.client.diagnosis.DiagnosisUtils;
+import org.osgeye.client.diagnosis.UsesConflict;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

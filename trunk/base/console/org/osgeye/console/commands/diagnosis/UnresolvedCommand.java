@@ -5,6 +5,8 @@ import static org.osgeye.console.commands.CommandUtils.*;
 import java.util.List;
 
 import org.osgeye.client.BundleStore;
+import org.osgeye.client.diagnosis.DiagnosisUtils;
+import org.osgeye.client.diagnosis.UsesConflict;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

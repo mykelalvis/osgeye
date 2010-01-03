@@ -8,6 +8,7 @@ import jline.Completor;
 import jline.SimpleCompletor;
 
 import org.osgeye.client.BundleStore;
+import org.osgeye.client.diagnosis.DiagnosisUtils;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
