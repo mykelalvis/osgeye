@@ -43,9 +43,20 @@ public class BundleStore implements BundleListener, ServiceListener, FrameworkLi
   
   public void addListener(BundleStoreListener listener)
   {
-    listeners.add(listener);
+    synchronized (listeners)
+    {
+      listeners.add(listener);
+    }
   }
-  
+
+  public void removeListener(BundleStoreListener listener)
+  {
+    synchronized (listeners)
+    {
+      listeners.remove(listener);
+    }
+  }
+
   public void loadBundles() throws ConnectException, IllegalStateException, RemoteServerException
   {
     frameworkState = client.getFrameworkState();
@@ -213,9 +224,19 @@ public class BundleStore implements BundleListener, ServiceListener, FrameworkLi
   
   private void notifyListeners()
   {
-    for (BundleStoreListener listener : listeners) 
+    synchronized (listeners)
     {
-      listener.bundleStoreUpdated();
+      for (BundleStoreListener listener : listeners) 
+      {
+        try
+        {
+          listener.bundleStoreUpdated();
+        }
+        catch (Exception exc)
+        {
+          exc.printStackTrace();
+        }
+      }
     }
   }
 }
