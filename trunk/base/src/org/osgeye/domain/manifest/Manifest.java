@@ -168,6 +168,7 @@ public class Manifest implements Serializable
   private transient Integer manifestVersion;
   private transient String activator;
   private transient List<String> categories;
+  private transient List<RequireBundleDeclaration> requireBundleDeclarations;
   private transient List<ExportPackagesDeclaration> exportDeclarations;
   private transient List<ImportPackagesDeclaration> importDeclarations;
   private transient List<NativeCodeDeclaration> nativeCodeDeclarations;
@@ -177,7 +178,6 @@ public class Manifest implements Serializable
   private transient String vendor;
   private transient List<String> dynamicImportPackages;
   private transient FragmentHost fragmentHost;
-  private transient RequireBundle requireBundle;
   private transient String prettyManifestFile;
   
   
@@ -289,6 +289,24 @@ public class Manifest implements Serializable
       }      
     }
     return categories;
+  }
+  
+  public List<RequireBundleDeclaration> getRequireBundleDeclarations()
+  {
+    if (requireBundleDeclarations == null)
+    {
+      requireBundleDeclarations = new ArrayList<RequireBundleDeclaration>();
+      if (headerProperties.containsKey(REQUIRE_BUNDLE))
+      {
+        List<String> declarations = parseDeclarations(headerProperties.get(REQUIRE_BUNDLE));
+        for (String declaration : declarations)
+        {
+          requireBundleDeclarations.add(new RequireBundleDeclaration(declaration));
+        }
+      }
+    }
+    
+    return requireBundleDeclarations;
   }
 
   public List<ImportPackagesDeclaration> getImportDeclarations()
@@ -403,22 +421,13 @@ public class Manifest implements Serializable
     return fragmentHost;
   }
 
-  public RequireBundle getRequireBundle()
-  {
-    if ((requireBundle == null) && headerProperties.containsKey(REQUIRE_BUNDLE))
-    {
-      requireBundle = new RequireBundle(headerProperties.get(REQUIRE_BUNDLE));
-    }
-    return requireBundle;
-  }
-
   protected List<String> parseDeclarations(String text)
   {
     List<String> declarations = new ArrayList<String>();
     
     while (text.length() > 0)
     {
-      int nextDeclarationCommon = findNextDeclarationComman(text);
+      int nextDeclarationCommon = findNextDeclarationComma(text);
       if (nextDeclarationCommon == -1)
       {
         declarations.add(text);
@@ -433,7 +442,7 @@ public class Manifest implements Serializable
     return declarations;
   }
   
-  private int findNextDeclarationComman(String text)
+  private int findNextDeclarationComma(String text)
   {
     int index = text.indexOf(',');
     if (index == -1)
