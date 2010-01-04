@@ -393,7 +393,12 @@ public class NetworkClient implements Runnable
     assertConnected();
     sendRequest(new SetInitBundleStartLevelRequest(startLevel), VoidResponse.class);
   }
-  
+
+  public void setBundleStartLevel(int startLevel, Long bundleId) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    setBundlesStartLevel(startLevel, Arrays.asList(bundleId));
+  }
+
   public void setBundlesStartLevel(int startLevel, List<Long> bundleIds) throws ConnectException, IllegalStateException, RemoteServerException
   {
     assertConnected();
