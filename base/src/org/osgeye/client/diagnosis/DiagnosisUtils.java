@@ -14,6 +14,7 @@ import org.osgeye.domain.VersionRange;
 import org.osgeye.domain.manifest.ExportPackagesDeclaration;
 import org.osgeye.domain.manifest.ImportPackagesDeclaration;
 import org.osgeye.domain.manifest.Manifest;
+import org.osgeye.domain.manifest.RequireBundleDeclaration;
 import org.osgeye.domain.manifest.Resolution;
 
 /**
@@ -27,11 +28,54 @@ public class DiagnosisUtils
   {}
   
   /**
+   * Finds missing bundles required for the given manifest
+   * 
+   * @param manifest The bundle manifest to find missing required bundles for.
+   * @param includeMandatory Include missing required bundles with a resolution of mandatory.
+   * @param includeOptional Include missing required bundles with a resolution of optional.
+   * @param allBundles All bundles currently deployed in the system.
+   * @return A list of all missing required bundles for the given manifest. If none are found
+   * an empty list will be returned.
+   */
+  public List<RequireBundleDeclaration> findMissingBundles(Manifest manifest, boolean includeMandatory, boolean includeOptional, List<Bundle> allBundles)
+  {
+    List<RequireBundleDeclaration> missingBundles = new ArrayList<RequireBundleDeclaration>();
+    
+    if (manifest == null) return missingBundles;
+    
+    List<RequireBundleDeclaration> requireBundleDeclarations = manifest.getRequireBundleDeclarations();
+    
+    MISSING_BUNDLES: for (RequireBundleDeclaration requireBundleDeclaration : requireBundleDeclarations)
+    {
+      Resolution requireResolution = requireBundleDeclaration.getResolution();
+      if ((includeOptional || (requireResolution != Resolution.OPTIONAL)) && (includeMandatory || (requireResolution != Resolution.MANDATORY))) 
+      {
+        String requiredBundleSymbolicName = requireBundleDeclaration.getSymbolicName();
+        VersionRange requiredBundleVersion = requireBundleDeclaration.getBundleVersion();
+        
+        for (Bundle bundle : allBundles)
+        {
+          if (bundle.getSymbolicName().equals(requiredBundleSymbolicName)
+              && requiredBundleVersion.isWithinRange(bundle.getVersion()))
+          {
+            continue MISSING_BUNDLES;
+          }
+        }
+        
+        missingBundles.add(requireBundleDeclaration);
+      }
+    }
+    
+    return missingBundles;
+  }
+  
+  /**
    * Finds missing package imports that aren't wired for the given bundle.
    * 
    * @param manifest The bundle manifest to find missing imports for.
    * @param includeMandatory Include package imports with a resolution of mandatory.
    * @param includeOptional Include package imports with a resolution of optional.
+   * @param allBundles All bundles currently deployed in the system.
    * @return A list of all the missing imported packages for this bundle. If none
    * are found an empty list will be returned.
    */
