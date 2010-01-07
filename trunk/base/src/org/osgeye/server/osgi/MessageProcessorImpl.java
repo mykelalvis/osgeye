@@ -13,7 +13,9 @@ import org.osgeye.domain.FrameworkState;
 import org.osgeye.domain.Version;
 import org.osgeye.domain.VersionRange;
 import org.osgeye.domain.manifest.Manifest;
+import org.osgeye.events.BundleEvent;
 import org.osgeye.events.FrameworkEvent;
+import org.osgeye.events.BundleEvent.BundleEventType;
 import org.osgeye.events.FrameworkEvent.FrameworkEventType;
 import org.osgeye.messages.AbstractMessage;
 import org.osgeye.messages.BooleanResponse;
@@ -290,6 +292,7 @@ public class MessageProcessorImpl implements MessageProcessor
       if (osgiBundle != null)
       {
         startLevelService.setBundleStartLevel(osgiBundle, startLevel);
+        eventDispatcher.dispatchEvent(new BundleEvent(bundleCreator.createBundle(osgiBundle), BundleEventType.START_LEVEL_CHANGED));
       }
     }
   }
