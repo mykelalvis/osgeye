@@ -57,6 +57,17 @@ public class NetworkServer implements Runnable, EventDispatcher
     clientConnections = new ArrayList<ClientConnection>();
   }
   
+  public void dispatchEventAsynchronously(final AbstractEvent event)
+  {
+    new Thread(new Runnable()
+    {
+      public void run()
+      {
+        dispatchEvent(event);
+      }
+    }).start();
+  }
+  
   public synchronized void dispatchEvent(AbstractEvent event)
   {
     for (ClientConnection connection : clientConnections)

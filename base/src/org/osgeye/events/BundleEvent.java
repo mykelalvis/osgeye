@@ -17,13 +17,14 @@ public class BundleEvent extends AbstractEvent
     STOPPING("Stopping", "The bundle is about to deactivated.", org.osgi.framework.BundleEvent.STOPPING),
     UNINSTALLED("Uninstalled", "The bundle has been uninstalled.", org.osgi.framework.BundleEvent.UNINSTALLED),
     UNRESOLVED("Unresolved", "The bundle has been unresolved.", org.osgi.framework.BundleEvent.UNRESOLVED),
-    UPDATED("Updated", "The bundle has been updated.", org.osgi.framework.BundleEvent.UNINSTALLED);
+    UPDATED("Updated", "The bundle has been updated.", org.osgi.framework.BundleEvent.UPDATED),
+    START_LEVEL_CHANGED("Start Level Changed", "The bundle's start level has been updated.", null);
     
     private String text;
     private String description;
-    private int osgiValue;
+    private Integer osgiValue;
     
-    static public BundleEventType fromOsgiValue(int osgiValue)
+    static public BundleEventType fromOsgiValue(Integer osgiValue)
     {
       for (BundleEventType bet : values())
       {
@@ -32,7 +33,7 @@ public class BundleEvent extends AbstractEvent
       throw new IllegalArgumentException("Invalid OSGi value " + osgiValue);
     }
     
-    private BundleEventType(String text, String description, int osgiValue)
+    private BundleEventType(String text, String description, Integer osgiValue)
     {
       this.text = text;
       this.description = description;
@@ -49,7 +50,7 @@ public class BundleEvent extends AbstractEvent
       return description;
     }
 
-    public int getOsgiValue()
+    public Integer getOsgiValue()
     {
       return osgiValue;
     }
