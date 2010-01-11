@@ -6,34 +6,34 @@ import java.util.List;
 
 import jline.SimpleCompletor;
 
-import org.osgeye.client.BundleStore;
-import org.osgeye.client.BundleStoreListener;
+import org.osgeye.client.ServerState;
+import org.osgeye.client.ServerStateListener;
 import org.osgeye.domain.BundleState;
 
-public class BundleNamesCompletor extends SimpleCompletor implements BundleStoreListener
+public class BundleNamesCompletor extends SimpleCompletor implements ServerStateListener
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   private List<BundleState> bundleStates;
-  public BundleNamesCompletor(BundleStore bundleStore)
+  public BundleNamesCompletor(ServerState bundleStore)
   {
     super(new String[0]);
     
     this.bundleStore = bundleStore;
     bundleStore.addListener(this);
-    bundleStoreUpdated();
+    serverStateUpdated();
   }
 
-  public BundleNamesCompletor(BundleStore bundleStore, List<BundleState> bundleStates)
+  public BundleNamesCompletor(ServerState bundleStore, List<BundleState> bundleStates)
   {
     super(new String[0]);
     
     this.bundleStore = bundleStore;
     this.bundleStates = bundleStates;
     bundleStore.addListener(this);
-    bundleStoreUpdated();
+    serverStateUpdated();
   }
 
-  public void bundleStoreUpdated()
+  public void serverStateUpdated()
   {
     List<String> bundleNames = (bundleStates == null) ? bundleStore.getBundleNames() 
         : bundleStore.getBundleNames(bundleStates);

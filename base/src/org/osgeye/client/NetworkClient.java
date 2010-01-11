@@ -4,7 +4,7 @@
  * $LastChangedRevision$
  * $HeaderURL$
  */
-package org.osgeye.client.network;
+package org.osgeye.client;
 
 
 import java.io.File;
@@ -26,18 +26,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.security.auth.login.CredentialException;
 
-import org.osgeye.client.BundleListener;
-import org.osgeye.client.FrameworkListener;
-import org.osgeye.client.OSGiEventListener;
-import org.osgeye.client.RemoteServerException;
-import org.osgeye.client.ServerListener;
-import org.osgeye.client.ServiceListener;
-import org.osgeye.client.events.ServerEvent;
-import org.osgeye.client.events.ServerEvent.ServerEventType;
+import org.osgeye.client.ServerEvent.ServerEventType;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleIdentity;
 import org.osgeye.domain.Configuration;
-import org.osgeye.domain.FrameworkState;
+import org.osgeye.domain.Framework;
 import org.osgeye.domain.StartBundleOptions;
 import org.osgeye.domain.StopBundleOptions;
 import org.osgeye.domain.VersionRange;
@@ -85,7 +78,7 @@ public class NetworkClient implements Runnable
   
   private int timeoutSeconds;
   
-  private NetworkServerIdentity remoteId;
+  private ServerIdentity remoteId;
   private String userName;
   private String password;
   
@@ -102,7 +95,7 @@ public class NetworkClient implements Runnable
   private List<ServerListener> serverListeners;
   private List<OSGiEventListener> osgiListeners;
   
-  public NetworkClient(NetworkServerIdentity remoteId, String userName, String password)
+  public NetworkClient(ServerIdentity remoteId, String userName, String password)
   {
     this.remoteId = remoteId;
     this.userName = userName;
@@ -297,12 +290,12 @@ public class NetworkClient implements Runnable
    * 
    * @return 
    */
-  public NetworkServerIdentity getIdentity()
+  public ServerIdentity getIdentity()
   {
     return remoteId;
   }
   
-  public FrameworkState getFrameworkState() throws ConnectException, IllegalStateException, RemoteServerException
+  public Framework getFramework() throws ConnectException, IllegalStateException, RemoteServerException
   {
     assertConnected();
     return sendRequest(new GetFrameworkStateRequest(), GetFrameworkStateResponse.class).getFrameworkState();

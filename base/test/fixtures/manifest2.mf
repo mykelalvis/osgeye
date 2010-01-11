@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OSGEye
+Bundle-SymbolicName: org.osgeye.eclipse;singleton:=true
+Bundle-Version: 0.0.3
+Bundle-Activator: org.osgeye.eclipse.OSGEyePlugin
+Bundle-Vendor: Corey Baswell
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views,
+ org.eclipse.ui.forms,
+ org.eclipse.core.resources;bundle-version="1.0.0";resolution:=optional;visibility:=reexport,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ lib/org.osgeye.client-0.0.3.jar
+Import-Package: org.eclipse.jface.text,
+ org.eclipse.jface.text.presentation,
+ org.eclipse.jface.text.rules,
+ org.eclipse.jface.text.source;version="1.0.0";resolution:=optional,
+ org.eclipse.pde.internal.ui.editor.actions,
+ org.eclipse.pde.internal.ui.editor.plugin,
+ org.eclipse.ui.console

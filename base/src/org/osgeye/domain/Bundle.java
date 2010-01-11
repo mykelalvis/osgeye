@@ -1,16 +1,11 @@
 package org.osgeye.domain;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import org.osgeye.domain.manifest.Manifest;
-import org.osgeye.utils.IOUtils;
 import org.osgeye.utils.OSGiUtils;
 import org.osgi.framework.ServiceReference;
 

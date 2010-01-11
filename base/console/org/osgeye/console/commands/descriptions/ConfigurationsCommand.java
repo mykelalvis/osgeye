@@ -6,7 +6,7 @@ import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
 
-import org.osgeye.client.network.NetworkClient;
+import org.osgeye.client.NetworkClient;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

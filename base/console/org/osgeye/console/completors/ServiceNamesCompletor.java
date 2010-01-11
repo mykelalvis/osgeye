@@ -3,24 +3,24 @@ package org.osgeye.console.completors;
 import static org.osgeye.utils.UtilityMethods.*;
 import jline.SimpleCompletor;
 
-import org.osgeye.client.BundleStore;
-import org.osgeye.client.BundleStoreListener;
+import org.osgeye.client.ServerState;
+import org.osgeye.client.ServerStateListener;
 
-public class ServiceNamesCompletor extends SimpleCompletor implements BundleStoreListener
+public class ServiceNamesCompletor extends SimpleCompletor implements ServerStateListener
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public ServiceNamesCompletor(BundleStore bundleStore)
+  public ServiceNamesCompletor(ServerState bundleStore)
   {
     super(new String[0]);
     
     this.bundleStore = bundleStore;
     bundleStore.addListener(this);
-    bundleStoreUpdated();
+    serverStateUpdated();
   }
 
-  public void bundleStoreUpdated()
+  public void serverStateUpdated()
   {
-    setCandidateStrings(toArray(bundleStore.getServiceInterfaces(), String.class));
+    setCandidateStrings(toArray(bundleStore.getServiceClassNames(), String.class));
   }
 }

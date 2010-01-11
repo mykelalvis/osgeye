@@ -9,9 +9,9 @@ import jline.SimpleCompletor;
 
 import org.osgeye.client.BundleListener;
 import org.osgeye.client.FrameworkListener;
+import org.osgeye.client.NetworkClient;
+import org.osgeye.client.ServerIdentity;
 import org.osgeye.client.ServiceListener;
-import org.osgeye.client.network.NetworkClient;
-import org.osgeye.client.network.NetworkServerIdentity;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -118,7 +118,7 @@ public class NotificationsCommand extends AbstractCommand implements BundleListe
     }
   }
 
-  public void bundleChanged(BundleEvent event, NetworkServerIdentity serverId)
+  public void bundleChanged(BundleEvent event, ServerIdentity serverId)
   {
     synchronized (evaluteSynchronization)
     {
@@ -135,7 +135,7 @@ public class NotificationsCommand extends AbstractCommand implements BundleListe
     }
   }
 
-  public void serviceChanged(ServiceEvent event, NetworkServerIdentity serverId)
+  public void serviceChanged(ServiceEvent event, ServerIdentity serverId)
   {
     if (printServices)
     {
@@ -144,17 +144,26 @@ public class NotificationsCommand extends AbstractCommand implements BundleListe
     }
   }
 
-  public void frameworkStateChanged(FrameworkEvent event, NetworkServerIdentity serverIdentity)
+  public void frameworkStateChanged(FrameworkEvent event, ServerIdentity serverIdentity)
   {
     if (printFramework)
     {
-      if (event.getValue() == null)
+      switch (event.getEventType())
       {
-        notification("Framework event " + event.getEventType().getText().toString());
-      }
-      else
-      {
-        notification("Framework event " + event.getEventType().getText().toString() + " value = " + event.getValue());
+        case INFO:
+        case WARNING:
+        case ERROR:
+          String msg = "Bundle: " + ((event.getBundle() == null) ? "N/A" : event.getBundle().toString());
+          if (event.getError() != null)
+          {
+            msg += " Error Message: " + event.getError().getMessage();
+          }
+          notification("A notification framework event at level " + event.getEventType().toString() + " " + msg);
+          break;
+          
+        default:
+          notification("Framework state updated: \n" + event.getFramework().toString());
+        break;
       }
     }
   }

@@ -1,4 +1,6 @@
-package org.osgeye.client.network;
+package org.osgeye.client;
+
+
 
 public interface NetworkClientListener
 {

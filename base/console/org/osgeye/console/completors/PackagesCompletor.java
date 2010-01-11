@@ -7,26 +7,26 @@ import java.util.List;
 
 import jline.SimpleCompletor;
 
-import org.osgeye.client.BundleStore;
-import org.osgeye.client.BundleStoreListener;
+import org.osgeye.client.ServerState;
+import org.osgeye.client.ServerStateListener;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.ExportedPackage;
 import org.osgeye.domain.manifest.ImportPackagesDeclaration;
 
-public class PackagesCompletor extends SimpleCompletor implements BundleStoreListener
+public class PackagesCompletor extends SimpleCompletor implements ServerStateListener
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public PackagesCompletor(BundleStore bundleStore)
+  public PackagesCompletor(ServerState bundleStore)
   {
     super(new String[0]);
     
     this.bundleStore = bundleStore;
     bundleStore.addListener(this);
-    bundleStoreUpdated();
+    serverStateUpdated();
   }
 
-  public void bundleStoreUpdated()
+  public void serverStateUpdated()
   {
     List<Bundle> bundles = bundleStore.getBundles();
     List<String> packageNames = new ArrayList<String>();

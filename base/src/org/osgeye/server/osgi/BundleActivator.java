@@ -103,8 +103,8 @@ public class BundleActivator implements org.osgi.framework.BundleActivator, Mana
       
       messageProcessor.setEventDispatcher(server);
       server.start();
-      eventListener = new EventsListener(packageAdmin, startLevel, server);
-      eventListener.start(context);
+      eventListener = new EventsListener(context, packageAdmin, startLevel, server);
+      eventListener.start();
     }
     catch (IOException ioexc)
     {
@@ -142,7 +142,7 @@ public class BundleActivator implements org.osgi.framework.BundleActivator, Mana
     {
       try
       {
-        eventListener.stop(context);
+        eventListener.stop();
       }
       catch (Exception exc) {}
       eventListener = null;

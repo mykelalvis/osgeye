@@ -8,7 +8,7 @@ import java.util.List;
 import jline.Completor;
 import jline.FileNameCompletor;
 
-import org.osgeye.client.network.NetworkClient;
+import org.osgeye.client.NetworkClient;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;

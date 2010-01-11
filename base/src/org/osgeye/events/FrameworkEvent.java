@@ -1,5 +1,8 @@
 package org.osgeye.events;
 
+import org.osgeye.domain.Bundle;
+import org.osgeye.domain.Framework;
+
 public class FrameworkEvent extends AbstractEvent
 {
   static public final int BUNDLE_INITIAL_START_LEVEL_CHANGED_OSGI_VALUE = -1;
@@ -43,24 +46,46 @@ public class FrameworkEvent extends AbstractEvent
     }
     
   }
-  
+
   private FrameworkEventType eventType;
-  private Object value;
   
-  public FrameworkEvent(FrameworkEventType eventType, Object value)
+  private Framework framework;
+  
+  private Bundle bundle;
+  
+  private Exception error;
+  
+  public FrameworkEvent(FrameworkEventType eventType, Framework framework)
   {
     this.eventType = eventType;
-    this.value = value;
+    this.framework = framework;
   }
 
+  public FrameworkEvent(FrameworkEventType eventType, Framework framework, Bundle bundle, Exception error)
+  {
+    this.eventType = eventType;
+    this.framework = framework;
+    this.bundle = bundle;
+    this.error = error;
+  }
+  
   public FrameworkEventType getEventType()
   {
     return eventType;
   }
 
-  public Object getValue()
+  public Framework getFramework()
   {
-    return value;
+    return framework;
   }
 
+  public Bundle getBundle()
+  {
+    return bundle;
+  }
+
+  public Exception getError()
+  {
+    return error;
+  }
 }

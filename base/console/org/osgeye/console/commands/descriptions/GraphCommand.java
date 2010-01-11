@@ -10,7 +10,7 @@ import jline.Completor;
 import jline.FileNameCompletor;
 import jline.SimpleCompletor;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.client.graphs.DotGraphGenerator;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
 import org.osgeye.console.commands.CommandCategory;
@@ -25,12 +25,12 @@ public class GraphCommand extends AbstractExecuteOnBundlesCommand
   static public final String GRAPH_PACKAGE_WIRING = "packagewiring";
   static public final String GRAPH_BUNDLE_FRAGMENTS = "fragments";
   
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
   private DotGraphGenerator dotGenerator;
   private String graphType;
   
-  public GraphCommand(BundleStore bundleStore)
+  public GraphCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
 

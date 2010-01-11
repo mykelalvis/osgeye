@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.Service;
 import org.osgeye.domain.ServiceClass;
@@ -16,9 +16,9 @@ abstract public class AbstractExecuteOnPackagesCommand extends AbstractCommand
   abstract protected void executeOnServices(List<String> matchedInterfaces, 
       Map<String, List<Service>> allServices, List<String> subcommands) throws InvalidCommandException;
 
-  protected BundleStore bundleStore;
+  protected ServerState bundleStore;
   
-  public AbstractExecuteOnPackagesCommand(BundleStore bundleStore)
+  public AbstractExecuteOnPackagesCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }

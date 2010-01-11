@@ -4,7 +4,7 @@ import static org.osgeye.console.commands.CommandUtils.*;
 
 import java.util.List;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -15,9 +15,9 @@ import org.osgeye.domain.manifest.Manifest;
 
 public class ExportsCommand extends AbstractExecuteOnBundlesCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public ExportsCommand(BundleStore bundleStore)
+  public ExportsCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }

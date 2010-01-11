@@ -1,6 +1,5 @@
-package org.osgeye.client.events;
+package org.osgeye.client;
 
-import org.osgeye.client.network.NetworkServerIdentity;
 
 public class ServerEvent
 {
@@ -10,16 +9,16 @@ public class ServerEvent
     DISCONNECTED
   }
   
-  private NetworkServerIdentity serverIdentity;
+  private ServerIdentity serverIdentity;
   private ServerEventType eventType;
-  public ServerEvent(NetworkServerIdentity serverIdentity, ServerEventType eventType)
+  public ServerEvent(ServerIdentity serverIdentity, ServerEventType eventType)
   {
     super();
     this.serverIdentity = serverIdentity;
     this.eventType = eventType;
   }
   
-  public NetworkServerIdentity getServerIdentity()
+  public ServerIdentity getServerIdentity()
   {
     return serverIdentity;
   }
