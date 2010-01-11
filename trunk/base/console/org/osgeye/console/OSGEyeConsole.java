@@ -16,12 +16,12 @@ import jline.ConsoleReader;
 import jline.History;
 
 import org.osgeye.Constants;
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.NetworkClient;
+import org.osgeye.client.NetworkClientListener;
+import org.osgeye.client.ServerEvent;
+import org.osgeye.client.ServerIdentity;
 import org.osgeye.client.ServerListener;
-import org.osgeye.client.events.ServerEvent;
-import org.osgeye.client.network.NetworkClient;
-import org.osgeye.client.network.NetworkClientListener;
-import org.osgeye.client.network.NetworkServerIdentity;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandUtils;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -139,13 +139,13 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
   
   private ConsoleReader consoleReader;
   private boolean inLoop;
-  private NetworkServerIdentity serverId;
+  private ServerIdentity serverId;
   private NetworkClient client;
   private String user;
   private List<AbstractCommand> commands;
   private Map<String, AbstractCommand> commandMap;
   private String prompt;
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   private Object evaluateSynchronization;
   
   private OSGEyeConsole(String host, int port, String user, String password) throws Exception
@@ -153,7 +153,7 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
     out.println("OSGEye Console v" + Constants.VERSION);
     out.println("Loading bundles. This may take a second or two...");
     
-    serverId = new NetworkServerIdentity(host, port);
+    serverId = new ServerIdentity(host, port);
     this.user = user;
     
     evaluateSynchronization = new Object();
@@ -170,8 +170,8 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
     consoleReader.setBellEnabled(false);
     consoleReader.setHistory(new History(new File(".release.history")));
 
-    bundleStore = new BundleStore(client);
-    bundleStore.loadBundles();
+    bundleStore = new ServerState(client);
+    bundleStore.loadState();
 
     out.println("Bundles are loaded. At anytime enter help for a list of available commands.");
 

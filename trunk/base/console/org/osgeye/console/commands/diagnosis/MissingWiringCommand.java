@@ -7,7 +7,7 @@ import java.util.List;
 import jline.Completor;
 import jline.SimpleCompletor;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.client.diagnosis.DiagnosisUtils;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
 import org.osgeye.console.commands.CommandCategory;
@@ -27,11 +27,11 @@ public class MissingWiringCommand extends AbstractExecuteOnBundlesCommand
 
   static public final String ALL = "all";
 
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
   private DiagnosisUtils diagnosisUtils;
   
-  public MissingWiringCommand(BundleStore bundleStore)
+  public MissingWiringCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
     diagnosisUtils = new DiagnosisUtils();

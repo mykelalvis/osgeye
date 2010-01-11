@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -20,9 +20,9 @@ import org.osgeye.utils.Pair;
 
 public class ImportsCommand extends AbstractExecuteOnBundlesCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public ImportsCommand(BundleStore bundleStore)
+  public ImportsCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }

@@ -9,8 +9,8 @@ import jline.ArgumentCompletor;
 import jline.Completor;
 import jline.NullCompletor;
 
-import org.osgeye.client.BundleStore;
-import org.osgeye.client.network.NetworkClient;
+import org.osgeye.client.NetworkClient;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -26,10 +26,10 @@ public class SetCommand extends AbstractCommand
   static public final String CMD_INIT_BUNDLE_LEVEL = "initbundlelevel";
   static public final String CMD_BUNDLE_LEVEL = "bundlelevel";
   
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   private NetworkClient networkClient;
   
-  public SetCommand(BundleStore bundleStore, NetworkClient networkClient)
+  public SetCommand(ServerState bundleStore, NetworkClient networkClient)
   {
     this.bundleStore = bundleStore;
     this.networkClient = networkClient;

@@ -3,7 +3,7 @@ package org.osgeye.console.commands.descriptions;
 import java.util.List;
 import java.util.Map;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractExecuteOnServiceCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -11,7 +11,7 @@ import org.osgeye.domain.Service;
 
 public class ServicesCommand extends AbstractExecuteOnServiceCommand
 {
-  public ServicesCommand(BundleStore bundleStore)
+  public ServicesCommand(ServerState bundleStore)
   {
     super(bundleStore);
   }

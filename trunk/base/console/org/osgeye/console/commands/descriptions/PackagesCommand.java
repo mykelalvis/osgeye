@@ -10,7 +10,7 @@ import java.util.Map;
 
 import jline.Completor;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -23,9 +23,9 @@ import org.osgeye.utils.Pair;
 
 public class PackagesCommand extends AbstractCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public PackagesCommand(BundleStore bundleStore)
+  public PackagesCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }

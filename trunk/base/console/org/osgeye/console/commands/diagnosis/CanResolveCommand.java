@@ -9,7 +9,7 @@ import java.util.List;
 import jline.Completor;
 import jline.FileNameCompletor;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.client.diagnosis.DiagnosisUtils;
 import org.osgeye.client.diagnosis.UsesConflict;
 import org.osgeye.console.commands.AbstractCommand;
@@ -23,10 +23,10 @@ import org.osgeye.utils.OSGiUtils;
 
 public class CanResolveCommand extends AbstractCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   private DiagnosisUtils diagnosisUtils;
   
-  public CanResolveCommand(BundleStore bundleStore)
+  public CanResolveCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
     diagnosisUtils = new DiagnosisUtils();

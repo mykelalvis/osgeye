@@ -4,7 +4,7 @@
  * $LastChangedRevision$
  * $HeaderURL$
  */
-package org.osgeye.client.network;
+package org.osgeye.client;
 
 import java.util.Map;
 
@@ -16,12 +16,12 @@ import java.util.Map;
  * @author Corey Baswell
  * @see AbstractRemoteEsbEvent
  */
-public class NetworkServerIdentity
+public class ServerIdentity
 {
   private String host;
   private int port;
   
-  public NetworkServerIdentity(String host, int port)
+  public ServerIdentity(String host, int port)
   {
     this.host = host;
     this.port = port;
@@ -46,9 +46,9 @@ public class NetworkServerIdentity
   @Override
   public boolean equals(Object obj)
   {
-    if (obj instanceof NetworkServerIdentity)
+    if (obj instanceof ServerIdentity)
     {
-      NetworkServerIdentity remoteEsbId = (NetworkServerIdentity)obj;
+      ServerIdentity remoteEsbId = (ServerIdentity)obj;
       
       return ((this.host.equals(remoteEsbId.host)) && (this.port == remoteEsbId.port));
     }

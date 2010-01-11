@@ -10,7 +10,7 @@ import jline.Completor;
 import jline.FileNameCompletor;
 import jline.SimpleCompletor;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.completors.ServiceNamesCompletor;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.Service;
@@ -21,9 +21,9 @@ abstract public class AbstractExecuteOnServiceCommand extends AbstractCommand
   abstract protected void executeOnServices(List<String> matchedInterfaces, 
       Map<String, List<Service>> allServices, List<String> subcommands) throws InvalidCommandException;
 
-  protected BundleStore bundleStore;
+  protected ServerState bundleStore;
   
-  public AbstractExecuteOnServiceCommand(BundleStore bundleStore)
+  public AbstractExecuteOnServiceCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }

@@ -7,7 +7,7 @@ import java.util.regex.PatternSyntaxException;
 
 import jline.ConsoleReader;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleState;
 import org.osgeye.domain.Version;
@@ -15,7 +15,7 @@ import org.osgeye.domain.VersionRange;
 
 public class CommandUtils
 {
-  static public BundleStore bundleStore;
+  static public ServerState bundleStore;
   
   static public ConsoleReader reader;
   

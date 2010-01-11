@@ -9,7 +9,7 @@ import java.util.List;
 import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleIdentity;
 import org.osgeye.domain.Configuration;
-import org.osgeye.domain.FrameworkState;
+import org.osgeye.domain.Framework;
 import org.osgeye.domain.Version;
 import org.osgeye.domain.VersionRange;
 import org.osgeye.domain.manifest.Manifest;
@@ -44,6 +44,7 @@ import org.osgeye.server.EventDispatcher;
 import org.osgeye.server.MessageProcessor;
 import org.osgeye.server.network.ClientConnection;
 import org.osgeye.server.osgi.utils.BundleCreator;
+import org.osgeye.server.osgi.utils.FrameworkCreator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.InvalidSyntaxException;
@@ -63,6 +64,7 @@ public class MessageProcessorImpl implements MessageProcessor
   
   private Logger logger;
   private BundleCreator bundleCreator;
+  private FrameworkCreator frameworkCreator;
   
   public MessageProcessorImpl(BundleContext bundleContext, PackageAdmin packageAdminService, 
       StartLevel startLevelService, ConfigurationAdmin configAdminService)
@@ -75,6 +77,7 @@ public class MessageProcessorImpl implements MessageProcessor
     logger = LoggerFactory.getLogger(getClass());
     
     bundleCreator = new BundleCreator(packageAdminService, startLevelService);
+    frameworkCreator = new FrameworkCreator(bundleContext, packageAdminService, startLevelService);
   }
   
   public void setEventDispatcher(EventDispatcher eventDispatcher)
@@ -88,7 +91,7 @@ public class MessageProcessorImpl implements MessageProcessor
     {
       if (request instanceof GetFrameworkStateRequest)
       {
-        return new GetFrameworkStateResponse(request.getMessageId(), getFrameworkState());
+        return new GetFrameworkStateResponse(request.getMessageId(), frameworkCreator.createFramework());
       }
       if (request instanceof GetAllBundlesRequest)
       {
@@ -157,11 +160,6 @@ public class MessageProcessorImpl implements MessageProcessor
       logger.warn("Unexpected exception for request " + request.getClass() + " with error " + exc.getMessage(), exc);
       return new ExceptionResponse(request.getMessageId(), exc);
     }
-  }
-  
-  protected FrameworkState getFrameworkState()
-  {
-    return new FrameworkState(startLevelService.getStartLevel(), startLevelService.getInitialBundleStartLevel());
   }
   
   protected BundlesResponse getAllBundles(GetAllBundlesRequest request)
@@ -280,7 +278,8 @@ public class MessageProcessorImpl implements MessageProcessor
      * As far as I can tell the OSGi framework doesn't provide event notification
      * for this.
      */
-    FrameworkEvent event = new FrameworkEvent(FrameworkEventType.BUNDLE_INITIAL_START_LEVEL_CHANGED, new Integer(startLevel));
+    
+    FrameworkEvent event = new FrameworkEvent(FrameworkEventType.BUNDLE_INITIAL_START_LEVEL_CHANGED, frameworkCreator.createFramework());
     eventDispatcher.dispatchEvent(event);
   }
   

@@ -4,7 +4,7 @@ import static org.osgeye.console.commands.CommandUtils.*;
 
 import java.util.List;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.client.diagnosis.DiagnosisUtils;
 import org.osgeye.client.diagnosis.UsesConflict;
 import org.osgeye.console.commands.AbstractExecuteOnBundlesCommand;
@@ -16,10 +16,10 @@ import org.osgeye.domain.ImportedPackage;
 
 public class UnresolvedCommand extends AbstractExecuteOnBundlesCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   private DiagnosisUtils diagnosisUtils;
   
-  public UnresolvedCommand(BundleStore bundleStore)
+  public UnresolvedCommand(ServerState bundleStore)
   {
     super(BundleState.INSTALLED);
     this.bundleStore = bundleStore;

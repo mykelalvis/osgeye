@@ -8,7 +8,7 @@ import java.util.List;
 import jline.Completor;
 import jline.SimpleCompletor;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -17,9 +17,9 @@ import org.osgeye.domain.BundleState;
 
 public class BundleStatesCommand extends AbstractCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public BundleStatesCommand(BundleStore bundleStore)
+  public BundleStatesCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }

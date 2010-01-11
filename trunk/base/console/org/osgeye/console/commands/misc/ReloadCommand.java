@@ -3,16 +3,16 @@ package org.osgeye.console.commands.misc;
 import static org.osgeye.console.commands.CommandUtils.*;
 import java.util.List;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
 
 public class ReloadCommand extends AbstractCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public ReloadCommand(BundleStore bundleStore)
+  public ReloadCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }
@@ -49,7 +49,7 @@ public class ReloadCommand extends AbstractCommand
     printer.println("Reloading bundles. This may take a second or two...");
     try
     {
-      bundleStore.loadBundles();
+      bundleStore.loadState();
     }
     catch (Exception exc)
     {

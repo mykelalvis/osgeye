@@ -36,11 +36,11 @@ public class Service implements Serializable, Comparable<Service>
     {
       try
       {
-        registeredClasses.add(new ServiceClass(osgiBundle.loadClass(registeredName)));
+        registeredClasses.add(new ServiceClass(osgiBundle.loadClass(registeredName), this));
       }
       catch (ClassNotFoundException cnfexc)
       {
-        registeredClasses.add(new ServiceClass(registeredName));
+        registeredClasses.add(new ServiceClass(registeredName, this));
       }
     }
   }
@@ -78,6 +78,19 @@ public class Service implements Serializable, Comparable<Service>
   public Bundle getBundle()
   {
     return bundle;
+  }
+  
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof Service)
+    {
+      Service service = (Service)obj;
+      return ((id == service.id) && bundle.equals(service.bundle));
+    }
+    else
+    {
+      return false;
+    }
   }
   
   public String toString()

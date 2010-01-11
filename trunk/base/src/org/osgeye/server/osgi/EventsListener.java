@@ -10,6 +10,7 @@ import org.osgeye.events.FrameworkEvent.FrameworkEventType;
 import org.osgeye.events.ServiceEvent.ServiceEventType;
 import org.osgeye.server.EventDispatcher;
 import org.osgeye.server.osgi.utils.BundleCreator;
+import org.osgeye.server.osgi.utils.FrameworkCreator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleListener;
 import org.osgi.framework.FrameworkListener;
@@ -20,33 +21,37 @@ import org.osgi.service.startlevel.StartLevel;
 
 public class EventsListener implements BundleListener, ServiceListener, FrameworkListener
 {
+  private BundleContext osgeyeContext;
   private PackageAdmin packageAdmin;
   private StartLevel startLevelService;
   private EventDispatcher eventDispatcher;
   
   private BundleCreator bundleCreator;
+  private FrameworkCreator frameworkCreator;
   
-  public EventsListener(PackageAdmin packageAdmin, StartLevel startLevelService, EventDispatcher eventDispatcher)
+  public EventsListener(BundleContext osgeyeContext, PackageAdmin packageAdmin, StartLevel startLevelService, EventDispatcher eventDispatcher)
   {
+    this.osgeyeContext = osgeyeContext;
     this.packageAdmin = packageAdmin;
     this.startLevelService = startLevelService;
     this.eventDispatcher = eventDispatcher;
     
     bundleCreator = new BundleCreator(packageAdmin, startLevelService);
+    frameworkCreator = new FrameworkCreator(osgeyeContext, packageAdmin, startLevelService);
   }
   
-  public void start(BundleContext context)
+  public void start()
   {
-    context.addBundleListener(this);
-    context.addServiceListener(this);
-    context.addFrameworkListener(this);
+    osgeyeContext.addBundleListener(this);
+    osgeyeContext.addServiceListener(this);
+    osgeyeContext.addFrameworkListener(this);
   }
   
-  public void stop(BundleContext context)
+  public void stop()
   {
-    context.removeBundleListener(this);
-    context.removeServiceListener(this);
-    context.removeFrameworkListener(this);
+    osgeyeContext.removeBundleListener(this);
+    osgeyeContext.removeServiceListener(this);
+    osgeyeContext.removeFrameworkListener(this);
   }
 
   public void bundleChanged(org.osgi.framework.BundleEvent event)
@@ -82,18 +87,16 @@ public class EventsListener implements BundleListener, ServiceListener, Framewor
   public void frameworkEvent(org.osgi.framework.FrameworkEvent event)
   {    
     FrameworkEventType eventType = FrameworkEventType.fromOsgiValue(event.getType());
-    Object source = event.getSource();
-    Object value;
-    switch (eventType)
+    Bundle bundle = (event.getBundle() == null) ? null : bundleCreator.createBundle(event.getBundle());
+    Throwable osgiError = event.getThrowable();
+    Exception error = null;
+    
+    if (osgiError != null)
     {
-      case START_LEVEL_CHANGED:
-        value = startLevelService.getStartLevel();
-        break;
-        
-      default:
-        value = (source == null) ? null : source.toString();
-        break;
+      error = new Exception(osgiError.getMessage());
+      error.setStackTrace(osgiError.getStackTrace());
     }
-    eventDispatcher.dispatchEvent(new FrameworkEvent(eventType, value));
+    
+    eventDispatcher.dispatchEvent(new FrameworkEvent(eventType, frameworkCreator.createFramework(), bundle, error));
   }
 }

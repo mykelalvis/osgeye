@@ -9,7 +9,7 @@ import java.util.List;
 import jline.Completor;
 import jline.ConsoleReader;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
@@ -21,10 +21,10 @@ import org.osgeye.utils.Pair;
 
 public class ListBundlesCommand extends AbstractCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   private ConsoleReader reader;
   
-  public ListBundlesCommand(BundleStore bundleStore, ConsoleReader reader)
+  public ListBundlesCommand(ServerState bundleStore, ConsoleReader reader)
   {
     this.bundleStore = bundleStore;
     this.reader = reader;
@@ -104,7 +104,7 @@ public class ListBundlesCommand extends AbstractCommand
     }
     else
     {
-      for (String serviceInterface : bundleStore.getServiceInterfaces())
+      for (String serviceInterface : bundleStore.getServiceClassNames())
       {
         if (serviceInterface.matches(pattern))
         {

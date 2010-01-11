@@ -3,17 +3,17 @@ package org.osgeye.console.commands.descriptions;
 import static org.osgeye.console.commands.CommandUtils.*;
 import java.util.List;
 
-import org.osgeye.client.BundleStore;
+import org.osgeye.client.ServerState;
 import org.osgeye.console.commands.AbstractCommand;
 import org.osgeye.console.commands.CommandCategory;
 import org.osgeye.console.commands.InvalidCommandException;
-import org.osgeye.domain.FrameworkState;
+import org.osgeye.domain.Framework;
 
 public class FrameworkCommand extends AbstractCommand
 {
-  private BundleStore bundleStore;
+  private ServerState bundleStore;
   
-  public FrameworkCommand(BundleStore bundleStore)
+  public FrameworkCommand(ServerState bundleStore)
   {
     this.bundleStore = bundleStore;
   }
@@ -41,7 +41,7 @@ public class FrameworkCommand extends AbstractCommand
   {
     assertEmpty(subcommands);
     
-    FrameworkState frameworkState = bundleStore.getFrameworkState();
+    Framework frameworkState = bundleStore.getFramework();
     
     printer.println("Framework State:");
     printer.pushIndent();

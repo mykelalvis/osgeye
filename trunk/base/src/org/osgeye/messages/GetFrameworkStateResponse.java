@@ -1,19 +1,19 @@
 package org.osgeye.messages;
 
-import org.osgeye.domain.FrameworkState;
+import org.osgeye.domain.Framework;
 
 public class GetFrameworkStateResponse extends AbstractMessage
 {
-  private FrameworkState frameworkState;
+  private Framework frameworkState;
   
-  public GetFrameworkStateResponse(String messageId, FrameworkState frameworkState)
+  public GetFrameworkStateResponse(String messageId, Framework frameworkState)
   {
     super(messageId);
     
     this.frameworkState = frameworkState;
   }
 
-  public FrameworkState getFrameworkState()
+  public Framework getFrameworkState()
   {
     return frameworkState;
   }
