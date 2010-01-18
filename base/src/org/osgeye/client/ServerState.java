@@ -13,6 +13,7 @@ import org.osgeye.domain.Configuration;
 import org.osgeye.domain.Framework;
 import org.osgeye.domain.Service;
 import org.osgeye.domain.ServiceClass;
+import org.osgeye.domain.Version;
 import org.osgeye.events.BundleEvent;
 import org.osgeye.events.FrameworkEvent;
 import org.osgeye.events.ServiceEvent;
@@ -24,7 +25,8 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
   private Framework framework;
   private List<Bundle> bundles;
   private List<Configuration> configurations;
-  private HashMap<Long, Bundle> bundleMap;
+  private HashMap<Long, Bundle> bundleIdMap;
+  private HashMap<String, List<Bundle>> bundleNameMap;
   private List<String> bundleNames;
   private List<Service> services;
   private List<ServiceClass> serviceClasses;
@@ -54,7 +56,8 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
     Framework frameworkCopy = client.getFramework();
     List<Bundle> bundlesCopy = client.getAllBundles();
 
-    HashMap<Long, Bundle> bundleMapCopy = new HashMap<Long, Bundle>();
+    HashMap<Long, Bundle> bundleIdMapCopy = new HashMap<Long, Bundle>();
+    HashMap<String, List<Bundle>> bundleNameMapCopy = new HashMap<String, List<Bundle>>();
     List<String> bundleNamesCopy = new ArrayList<String>();
     List<Service> servicesCopy = new ArrayList<Service>();
     List<ServiceClass> serviceClassesCopy = new ArrayList<ServiceClass>();
@@ -68,7 +71,19 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
         bundleNamesCopy.add(bundleName);
       }
       
-      bundleMapCopy.put(bundle.getId(), bundle);
+      bundleIdMapCopy.put(bundle.getId(), bundle);
+      
+      List<Bundle> sameNameBundles;
+      if (bundleNameMapCopy.containsKey(bundleName))
+      {
+        sameNameBundles = bundleNameMapCopy.get(bundleName);
+      }
+      else
+      {
+        sameNameBundles = new ArrayList<Bundle>();
+        bundleNameMapCopy.put(bundleName, sameNameBundles);
+      }
+      sameNameBundles.add(bundle);
       
       for (Service service : bundle.getServices())
       {
@@ -96,7 +111,8 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
     framework = frameworkCopy;
     bundles = bundlesCopy;
     bundleNames = bundleNamesCopy;
-    bundleMap = bundleMapCopy;
+    bundleIdMap = bundleIdMapCopy;
+    bundleNameMap = bundleNameMapCopy;
     services = servicesCopy;
     serviceClasses = serviceClassesCopy;
     serviceClassNames = serviceClassNamesCopy;
@@ -142,7 +158,48 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
   public Bundle getBundle(long bundleId)
   {
     assertStateLoaded();
-    return bundleMap.get(bundleId);
+    return bundleIdMap.get(bundleId);
+  }
+
+  /**
+   * 
+   * @param symbolicName
+   * @param version
+   * @return The matching bundle with the same given symbolic name and version
+   * or <code>null</code> if no such bundle is found.
+   */
+  public Bundle getBundle(String symbolicName, Version version)
+  {
+    assertStateLoaded();
+    
+    for (Bundle bundle : getBundles(symbolicName))
+    {
+      if (bundle.getVersion().equals(version))
+      {
+        return bundle;
+      }
+    }
+    
+    return null;
+  }
+
+  /**
+   * 
+   * @param symbolicName
+   * @return A list of bundles that have the given symbolicName. If no bundles
+   * are found an empty list will be returned.
+   */
+  public List<Bundle> getBundles(String symbolicName)
+  {
+    assertStateLoaded();
+    
+    List<Bundle> bundles = new ArrayList<Bundle>();
+    if (bundleNameMap.containsKey(symbolicName))
+    {
+      bundles.addAll(bundleNameMap.get(symbolicName));
+    }
+    
+    return bundles;
   }
 
   /**
@@ -198,10 +255,10 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
    * @return A map of all the bundles in the system keyed by the bundle id.
    */
   @SuppressWarnings("unchecked")
-  public Map<Long, Bundle> getBundleMap()
+  public Map<Long, Bundle> getBundleIdMap()
   {
     assertStateLoaded();
-    return (Map)bundleMap.clone();
+    return (Map)bundleIdMap.clone();
   }
 
   /**
@@ -254,7 +311,7 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
     switch (event.getEventType())
     {
       case UNINSTALLED:
-        Bundle bundleToRemove = bundleMap.remove(event.getUninstalledBundleId());
+        Bundle bundleToRemove = bundleIdMap.remove(event.getUninstalledBundleId());
         if (bundleToRemove != null)
         {
           bundles.remove(bundleToRemove);
@@ -263,13 +320,13 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
         break;
       
       default:
-        Bundle updatedBundle = bundleMap.remove(bundle.getId());
+        Bundle updatedBundle = bundleIdMap.remove(bundle.getId());
         if (updatedBundle != null)
         {
           bundles.remove(updatedBundle);
         }
         
-        bundleMap.put(bundle.getId(), bundle);
+        bundleIdMap.put(bundle.getId(), bundle);
         bundles.add(bundle);
         if (!bundleNames.contains(bundle.getSymbolicName()))
         {

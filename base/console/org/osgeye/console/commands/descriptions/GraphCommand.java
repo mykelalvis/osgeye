@@ -90,7 +90,7 @@ public class GraphCommand extends AbstractExecuteOnBundlesCommand
     }
     else
     {
-      graphText = dotGenerator.generateBundleFragments(matchingBundles, bundleStore.getBundleMap());
+      graphText = dotGenerator.generateBundleFragments(matchingBundles, bundleStore.getBundleIdMap());
     }
     
     try
