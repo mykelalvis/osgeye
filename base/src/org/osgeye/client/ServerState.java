@@ -120,7 +120,7 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
     
     stateLoaded = true;
     
-    notifyListeners();
+    notifyListenersOfUpdate();
   }
   
   public void addListener(ServerStateListener listener)
@@ -210,6 +210,28 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
   {
     assertStateLoaded();
     return new ArrayList<Bundle>(bundles);
+  }
+
+
+  /**
+   * 
+   * @param bundleId
+   * @return A list of bundles that have a required dependency on the given bundle id.
+   */
+  public List<Bundle> getWiredBundles(Long bundleId)
+  {
+    assertStateLoaded();
+    
+    List<Bundle> wiredBundles = new ArrayList<Bundle>();
+    for (Bundle bundle : getBundles())
+    {
+      if (bundle.getRequiredBundleIds().contains(bundleId))
+      {
+        wiredBundles.add(bundle);
+      }
+    }
+    
+    return wiredBundles;
   }
   
   /**
@@ -335,7 +357,7 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
         break;
     }
     
-    notifyListeners();
+    notifyListenersOfUpdate();
   }
 
   public synchronized void serviceChanged(ServiceEvent event, ServerIdentity serverId)
@@ -388,16 +410,16 @@ public class ServerState implements BundleListener, ServiceListener, FrameworkLi
     Collections.sort(services);
     Collections.sort(serviceClasses);
     Collections.sort(serviceClassNames);
-    notifyListeners();
+    notifyListenersOfUpdate();
   }
 
   public synchronized void frameworkStateChanged(FrameworkEvent event, ServerIdentity serverIdentity)
   {
     framework = event.getFramework();
-    notifyListeners();
+    notifyListenersOfUpdate();
   }
   
-  private void notifyListeners()
+  private void notifyListenersOfUpdate()
   {
     synchronized (listeners)
     {
