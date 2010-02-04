@@ -68,7 +68,7 @@ public class StartBundlesCommand extends AbstractExecuteOnBundlesCommand
     String[] bundleStates = new String[] {StartBundleOptions.START_ACTIVATION_POLICY.getText(), 
         StartBundleOptions.START_TRANSIENT.getText()}; 
 
-    return new Completor[] {new BundleNamesCompletor(bundleStore), 
+    return new Completor[] {new BundleNamesCompletor(serverState), 
         new VersionRangeCompletor(), new SimpleCompletor(bundleStates)}; 
   }
 

@@ -47,7 +47,7 @@ public class ManifestCommand extends AbstractExecuteOnBundlesCommand
   @Override
   protected Completor[] getSubCompletors()
   {
-    return new Completor[] {new BundleNamesCompletor(bundleStore), 
+    return new Completor[] {new BundleNamesCompletor(serverState), 
         new SimpleCompletor(new String[] {SUBCOMMAND_PRETTY, SUBCOMMAND_RAW}),
         new VersionRangeCompletor()};
   }

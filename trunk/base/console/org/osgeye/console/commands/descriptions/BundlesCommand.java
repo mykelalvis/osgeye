@@ -63,7 +63,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         printer.pushIndent();
         for (Long bundleId : bundle.getFragmentBundleIds())
         {
-          printer.println(bundleStore.getBundle(bundleId));
+          printer.println(serverState.getBundle(bundleId));
         }
         printer.popIndent();
       }
@@ -74,7 +74,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         printer.pushIndent();
         for (Long bundleId : bundle.getHostBundleIds())
         {
-          printer.println(bundleStore.getBundle(bundleId));
+          printer.println(serverState.getBundle(bundleId));
         }
         printer.popIndent();
       }
@@ -99,7 +99,7 @@ public class BundlesCommand extends AbstractExecuteOnBundlesCommand
         printer.pushIndent();
         for (Long bundleId : bundle.getRequiredBundleIds())
         {
-          printer.println(bundleStore.getBundle(bundleId));
+          printer.println(serverState.getBundle(bundleId));
         }
         printer.popIndent();
       }

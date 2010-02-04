@@ -15,7 +15,7 @@ import org.osgeye.domain.VersionRange;
 
 public class CommandUtils
 {
-  static public ServerState bundleStore;
+  static public ServerState serverState;
   
   static public ConsoleReader reader;
   
@@ -177,7 +177,7 @@ public class CommandUtils
     }
     
     List<Bundle> matchingBundles = new ArrayList<Bundle>();
-    List<Bundle> allBundles = bundleStore.getBundles();
+    List<Bundle> allBundles = serverState.getBundles();
     for (Bundle bundle : allBundles)
     {
       try
