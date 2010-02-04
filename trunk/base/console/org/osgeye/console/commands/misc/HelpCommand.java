@@ -94,7 +94,7 @@ public class HelpCommand extends AbstractCommand
         printer.pushIndent();
         for (AbstractCommand command : categoryMap.get(category))
         {
-          printer.printFixedSpaceLn(command.getName(), 15, command.getShortDescription());
+          printer.printFixedSpaceLn(command.getName(), 20, command.getShortDescription());
         }
         printer.popIndent();
       }
