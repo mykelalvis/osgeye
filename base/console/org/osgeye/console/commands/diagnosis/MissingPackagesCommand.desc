@@ -1,6 +1,6 @@
 format:
 
-    missing <bundle name pattern>? <version range>? <type>? <file pipe>?
+    missingpackages <bundle name pattern>? <version range>? <type>? <file pipe>?
 
 options:
                            
@@ -31,7 +31,7 @@ output:
 
 examples:
 
-    > missing ojdbc14 
+    > missingpackages ojdbc14 
     
     ojdbc14 10.2.0.4 (ACTIVE)
         oracle.i18n.text 0.0.0 ?
@@ -39,7 +39,7 @@ examples:
         oracle.ons 0.0.0 ?
         oracle.security.pki 0.0.0 ?
 
-    > missing * * mandatory 
+    > missingpackages * * mandatory 
     
     org.test.core.api 2.1.1 (INSTALLED)
         org.test.util.collections 0.0.0
