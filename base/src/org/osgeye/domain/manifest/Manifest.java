@@ -209,10 +209,6 @@ public class Manifest implements Serializable
         }
         
         int index = line.indexOf(':');
-        if (index == -1)
-        {
-          System.out.println(line);
-        }
         currentName = line.substring(0, index);
         if (index == (line.length() - 1))
         {
@@ -231,6 +227,11 @@ public class Manifest implements Serializable
       headerProperties.put(currentName, currentValue);
     }
     
+  }
+  
+  public boolean isValidManifest()
+  {
+    return (getHeaderValue(SYMBOLIC_NAME) != null);
   }
   
   public String getHeaderValue(String headerName)
