@@ -65,7 +65,7 @@ public class StopBundlesCommand extends AbstractExecuteOnBundlesCommand
   public Completor[] getSubCompletors()
   {
     String[] bundleStates = new String[] {StopBundleOptions.STOP_TRANSIENT.getText()}; 
-    return new Completor[] {new BundleNamesCompletor(bundleStore), new SimpleCompletor(bundleStates)}; 
+    return new Completor[] {new BundleNamesCompletor(serverState), new SimpleCompletor(bundleStates)}; 
   }
   
   @Override

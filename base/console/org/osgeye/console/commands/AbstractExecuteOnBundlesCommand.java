@@ -36,11 +36,11 @@ abstract public class AbstractExecuteOnBundlesCommand extends AbstractCommand
     BundleNamesCompletor namesCompletor;
     if (states == null)
     {
-      namesCompletor = new BundleNamesCompletor(bundleStore);
+      namesCompletor = new BundleNamesCompletor(serverState);
     }
     else
     {
-      namesCompletor = new BundleNamesCompletor(bundleStore, states);
+      namesCompletor = new BundleNamesCompletor(serverState, states);
     }
     
     return new Completor[] {namesCompletor, new VersionRangeCompletor()};

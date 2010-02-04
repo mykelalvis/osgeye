@@ -45,7 +45,8 @@ import org.osgeye.console.commands.descriptions.NotificationsCommand;
 import org.osgeye.console.commands.descriptions.PackagesCommand;
 import org.osgeye.console.commands.descriptions.ServicesCommand;
 import org.osgeye.console.commands.diagnosis.CanResolveCommand;
-import org.osgeye.console.commands.diagnosis.MissingWiringCommand;
+import org.osgeye.console.commands.diagnosis.MissingBundlesCommand;
+import org.osgeye.console.commands.diagnosis.MissingPackagesCommand;
 import org.osgeye.console.commands.diagnosis.UnresolvedCommand;
 import org.osgeye.console.commands.misc.ClearCommand;
 import org.osgeye.console.commands.misc.ExitCommand;
@@ -145,7 +146,7 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
   private List<AbstractCommand> commands;
   private Map<String, AbstractCommand> commandMap;
   private String prompt;
-  private ServerState bundleStore;
+  private ServerState serverState;
   private Object evaluateSynchronization;
   
   private OSGEyeConsole(String host, int port, String user, String password) throws Exception
@@ -170,8 +171,8 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
     consoleReader.setBellEnabled(false);
     consoleReader.setHistory(new History(new File(".release.history")));
 
-    bundleStore = new ServerState(client);
-    bundleStore.loadState();
+    serverState = new ServerState(client);
+    serverState.loadState();
 
     out.println("Bundles are loaded. At anytime enter help for a list of available commands.");
 
@@ -261,38 +262,39 @@ public class OSGEyeConsole implements ServerListener, NetworkClientListener
   {
     List<AbstractCommand> commands = new ArrayList<AbstractCommand>();
     
-    CommandUtils.bundleStore = bundleStore;
+    CommandUtils.serverState = serverState;
     CommandUtils.reader = consoleReader;
 
-    commands.add(new SetCommand(bundleStore, client));
+    commands.add(new SetCommand(serverState, client));
     commands.add(new StartBundlesCommand(client));
     commands.add(new StopBundlesCommand(client));
-    commands.add(new BundleStatesCommand(bundleStore));
+    commands.add(new BundleStatesCommand(serverState));
     commands.add(new InstallBundleCommand(client));
     commands.add(new UninstallBundlesCommand(client));
     commands.add(new RefreshPackagesCommand(client));
     commands.add(new ResolveBundlesCommand(client));
     commands.add(new NotificationsCommand(client, evaluateSynchronization));
     
-    commands.add(new FrameworkCommand(bundleStore));
+    commands.add(new FrameworkCommand(serverState));
     commands.add(new BundlesCommand());
     commands.add(new ConfigurationsCommand(client));
-    commands.add(new PackagesCommand(bundleStore));
-    commands.add(new ListBundlesCommand(bundleStore, consoleReader));
+    commands.add(new PackagesCommand(serverState));
+    commands.add(new ListBundlesCommand(serverState, consoleReader));
     commands.add(new ManifestCommand());
-    commands.add(new ServicesCommand(bundleStore));
-    commands.add(new ImportsCommand(bundleStore));
-    commands.add(new ExportsCommand(bundleStore));
-    commands.add(new GraphCommand(bundleStore));
+    commands.add(new ServicesCommand(serverState));
+    commands.add(new ImportsCommand(serverState));
+    commands.add(new ExportsCommand(serverState));
+    commands.add(new GraphCommand(serverState));
 
-    commands.add(new UnresolvedCommand(bundleStore));
-    commands.add(new MissingWiringCommand(bundleStore));
-    commands.add(new CanResolveCommand(bundleStore));
+    commands.add(new UnresolvedCommand(serverState));
+    commands.add(new MissingPackagesCommand(serverState));
+    commands.add(new MissingBundlesCommand(serverState));
+    commands.add(new CanResolveCommand(serverState));
 
     commands.add(new ExitCommand());
     commands.add(new ClearCommand(consoleReader));
     commands.add(new HelpCommand(commands));
-    commands.add(new ReloadCommand(bundleStore));
+    commands.add(new ReloadCommand(serverState));
 
     return commands;
   }
