@@ -1,13 +1,15 @@
-OSGEye v0.0.2
+OSGEye v0.0.3
 
-Bug Fixes
+Console Bug Fixes
 
  * Bundles Completor Not Reload: http://code.google.com/p/osgeye/issues/detail?id=1
 
-Changes/Enhancements
+Console Changes/Enhancements
 
  * Fixed some print formatting on the console.
  * Added canresolve command
  * Removed Commons IO Dependency
+ * Renamed missing command to missingpackages
+ * Added missingbundles command
   
  
