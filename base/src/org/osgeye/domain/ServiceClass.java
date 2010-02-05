@@ -2,27 +2,27 @@ package org.osgeye.domain;
 
 import java.io.Serializable;
 
+import org.osgeye.remotereflect.TypeDefinition;
+
 public class ServiceClass implements Serializable, Comparable<ServiceClass>
 {
-  private final String className;
-  
   private Service service;
   
-  private final boolean interfce;
+  private TypeDefinition typeDefinition;
+  
+  private String className;
 
   public ServiceClass(String className, Service service)
   {
     this.className = className;
     this.service = service;
-    interfce = false;
   }
 
-  
-  public ServiceClass(Class clazz, Service service)
+  public ServiceClass(TypeDefinition typeDefinition, Service service)
   {
-    this.className = clazz.getCanonicalName();
     this.service = service;
-    this.interfce = clazz.isInterface();
+    this.typeDefinition = typeDefinition;
+    className = typeDefinition.getQualifiedName();
   }
   
   public String getClassName()
@@ -37,7 +37,7 @@ public class ServiceClass implements Serializable, Comparable<ServiceClass>
 
   public boolean isInterface()
   {
-    return interfce;
+    return (typeDefinition == null) ?  false : typeDefinition.isInterface();
   }
   
   public String toString()
@@ -57,7 +57,6 @@ public class ServiceClass implements Serializable, Comparable<ServiceClass>
       return false;
     }
   }
-
 
   public int compareTo(ServiceClass sc)
   {
