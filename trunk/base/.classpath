@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="console"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="src" path="remotereflect"/>
 	<classpathentry kind="lib" path="lib/osgi.cmpn-4.1.jar"/>
 	<classpathentry kind="lib" path="lib/osgi.core-4.1.jar"/>
 	<classpathentry kind="lib" path="lib/testng-5.8-jdk15.jar"/>

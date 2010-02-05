@@ -3,8 +3,7 @@
 <suite name="suite" verbose="1" >
   <test name="tests">
     <classes>
-      <class name="org.osgimanager.domain.BundleManifestTest" />
-      <class name="org.osgimanager.domain.VersionRangeTest" />
+      <class name="org.osgeye.remotereflect.DefinitionCreatorTest" />
     </classes>
   </test>
 </suite>
