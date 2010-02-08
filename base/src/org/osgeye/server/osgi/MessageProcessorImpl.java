@@ -10,6 +10,7 @@ import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleIdentity;
 import org.osgeye.domain.Configuration;
 import org.osgeye.domain.Framework;
+import org.osgeye.domain.ServiceClass;
 import org.osgeye.domain.Version;
 import org.osgeye.domain.VersionRange;
 import org.osgeye.domain.manifest.Manifest;
@@ -28,6 +29,8 @@ import org.osgeye.messages.GetConfigurationsRequest;
 import org.osgeye.messages.GetConfigurationsResponse;
 import org.osgeye.messages.GetFrameworkStateRequest;
 import org.osgeye.messages.GetFrameworkStateResponse;
+import org.osgeye.messages.GetServiceTypeDefinitionRequest;
+import org.osgeye.messages.GetServiceTypeDefinitionResponse;
 import org.osgeye.messages.InstallBundleRequest;
 import org.osgeye.messages.InstallBundleResponse;
 import org.osgeye.messages.RefreshPackagesRequest;
@@ -40,6 +43,8 @@ import org.osgeye.messages.StopBundlesRequest;
 import org.osgeye.messages.UninstallBundlesRequest;
 import org.osgeye.messages.UpdateBundleRequest;
 import org.osgeye.messages.VoidResponse;
+import org.osgeye.remotereflect.DefinitionCreator;
+import org.osgeye.remotereflect.TypeDefinition;
 import org.osgeye.server.EventDispatcher;
 import org.osgeye.server.MessageProcessor;
 import org.osgeye.server.network.ClientConnection;
@@ -47,7 +52,9 @@ import org.osgeye.server.osgi.utils.BundleCreator;
 import org.osgeye.server.osgi.utils.FrameworkCreator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.Constants;
 import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.service.cm.ConfigurationAdmin;
 import org.osgi.service.packageadmin.PackageAdmin;
 import org.osgi.service.startlevel.StartLevel;
@@ -147,6 +154,12 @@ public class MessageProcessorImpl implements MessageProcessor
       {
         SetBundlesStartLevelRequest sbslr= (SetBundlesStartLevelRequest)request;
         setBundlesStartLevel(sbslr.getStartLevel(), sbslr.getBundleIds());
+      }
+      else if (request instanceof GetServiceTypeDefinitionRequest)
+      {
+        GetServiceTypeDefinitionRequest getServiceTypeDefRequest = (GetServiceTypeDefinitionRequest)request;
+        return new GetServiceTypeDefinitionResponse(request.getMessageId(), getServiceTypeDefRequest.getServiceClass(), 
+            getServiceTypeDefinition(getServiceTypeDefRequest.getServiceClass()));
       }
       else
       {
@@ -329,6 +342,24 @@ public class MessageProcessorImpl implements MessageProcessor
     org.osgi.framework.Bundle osgiBundle = bundleContext.installBundle(fileUrl);
     
     return bundleCreator.createBundle(osgiBundle);
+  }
+  
+  protected TypeDefinition getServiceTypeDefinition(ServiceClass serviceClass) throws InvalidSyntaxException, ClassNotFoundException
+  {
+    String filter = String.format("(%s=%s)", Constants.SERVICE_ID, serviceClass.getService().getId());
+    ServiceReference[] serviceRefs = bundleContext.getServiceReferences(serviceClass.getClassName(), filter);
+    
+    if (serviceRefs.length == 0)
+    {
+      throw new IllegalStateException("No service with the given id was found.");
+    }
+    else
+    {
+      ServiceReference serviceRef = serviceRefs[0];
+      Class clazz = serviceRef.getBundle().loadClass(serviceClass.getClassName());
+      DefinitionCreator creator = new DefinitionCreator();
+      return creator.createDefinition(clazz);
+    }
   }
   
   private org.osgi.framework.Bundle[] getBundles(List<Long> bundleIds)

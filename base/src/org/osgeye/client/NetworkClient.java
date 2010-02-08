@@ -31,6 +31,7 @@ import org.osgeye.domain.Bundle;
 import org.osgeye.domain.BundleIdentity;
 import org.osgeye.domain.Configuration;
 import org.osgeye.domain.Framework;
+import org.osgeye.domain.ServiceClass;
 import org.osgeye.domain.StartBundleOptions;
 import org.osgeye.domain.StopBundleOptions;
 import org.osgeye.domain.VersionRange;
@@ -51,6 +52,8 @@ import org.osgeye.messages.GetConnectedClientsRequest;
 import org.osgeye.messages.GetConnectionClientsResponse;
 import org.osgeye.messages.GetFrameworkStateRequest;
 import org.osgeye.messages.GetFrameworkStateResponse;
+import org.osgeye.messages.GetServiceTypeDefinitionRequest;
+import org.osgeye.messages.GetServiceTypeDefinitionResponse;
 import org.osgeye.messages.InstallBundleRequest;
 import org.osgeye.messages.InstallBundleResponse;
 import org.osgeye.messages.LoginRequest;
@@ -65,6 +68,7 @@ import org.osgeye.messages.StopBundlesRequest;
 import org.osgeye.messages.UninstallBundlesRequest;
 import org.osgeye.messages.UpdateBundleRequest;
 import org.osgeye.messages.VoidResponse;
+import org.osgeye.remotereflect.TypeDefinition;
 import org.osgeye.utils.IOUtils;
 
 /**
@@ -453,6 +457,12 @@ public class NetworkClient implements Runnable
   {
     assertConnected();
     return sendRequest(new GetConfigurationsRequest(filter), GetConfigurationsResponse.class).getConfigurations();
+  }
+  
+  public TypeDefinition getServiceTypeDefinition(ServiceClass serviceClass) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    assertConnected();
+    return sendRequest(new GetServiceTypeDefinitionRequest(serviceClass), GetServiceTypeDefinitionResponse.class).getTypeDefinition();
   }
   
   /**
