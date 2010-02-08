@@ -4,15 +4,15 @@ import java.util.List;
 
 public class SampleA
 {
-  public String one;
+  private String one;
   
-  public Integer two;
+  private Integer two;
   
-  public Long three;
+  private Long three;
   
-  public String[] four;
+  private String[] four;
   
-  public List<SampleA> five;
+  private List<SampleA> five;
   
   public SampleA()
   {}
