@@ -46,31 +46,16 @@ public class DefinitionCreator
     ComplexTypeDefinition complexTypeDef = new ComplexTypeDefinition();
     complexTypeMap.put(typeStr, complexTypeDef);
     
-    Class clazz;
+    Class clazz = null;
     if (type instanceof ParameterizedType)
     {
       ParameterizedType paramType = (ParameterizedType)type;
-      clazz = (Class)paramType.getRawType();
-    }
-    else if (type instanceof TypeVariable)
-    {
-      TypeVariable typeVar = (TypeVariable)type;
-      clazz = (Class)typeVar.getGenericDeclaration();
-    }
-    else if (type instanceof WildcardType)
-    {
-      WildcardType wildcardType = (WildcardType)type;
-      clazz = null;
-    }
-    else if (type instanceof GenericArrayType)
-    {
-      GenericArrayType genericArrayType = (GenericArrayType)type;
-      clazz = (Class)genericArrayType.getClass();
+      clazz = getRawClass(paramType.getRawType());
     }
     else
     {
       clazz = (Class)type;
-    }
+    }    
     
     complexTypeDef.setName(clazz.getSimpleName());
     if (clazz.getPackage() != null)
@@ -83,7 +68,7 @@ public class DefinitionCreator
     
     if (complexTypeDef.isArray())
     {
-      complexTypeDef.setContainerType(createDefinition(clazz.getComponentType()));
+      complexTypeDef.setContainerType(createDefinition(clazz.getComponentType(), complexTypeMap));
     }
     else if (complexTypeDef.isIterable())
     {
@@ -107,7 +92,8 @@ public class DefinitionCreator
         String fieldName = field.getName();
         AccessLevel accessLevel = getAccessLevel(field.getModifiers());
         boolean statc = Modifier.isStatic(field.getModifiers());
-        TypeDefinition fieldTypeDef = createDefinition(field.getGenericType(), complexTypeMap);
+        Type parameterType = (field.getGenericType() instanceof ParameterizedType) ? field.getGenericType() : field.getType();
+        TypeDefinition fieldTypeDef = createDefinition(parameterType, complexTypeMap);
         fieldDefs.add(new FieldDefinition(fieldName, accessLevel, statc, fieldTypeDef));
       }
     }
@@ -122,21 +108,24 @@ public class DefinitionCreator
         String methodName = method.getName();
         AccessLevel accesslevel = getAccessLevel(method.getModifiers());
         boolean statc = Modifier.isStatic(method.getModifiers());
-        Type returnType = method.getGenericReturnType();
+        Type returnType = (method.getGenericReturnType() instanceof ParameterizedType) ? method.getGenericReturnType() : method.getReturnType();
         TypeDefinition returnTypeDef = (returnType == void.class) ? null : createDefinition(returnType, complexTypeMap);
         
-        Type[] parameters = method.getGenericParameterTypes();
+        Type[] genericParameterTypes = method.getGenericParameterTypes();
+        Type[] parameterTypes = method.getParameterTypes();
         List<TypeDefinition> parameterDefs = new ArrayList<TypeDefinition>();
-        for (Type parameter : parameters)
+        
+        for (int i = 0; i < genericParameterTypes.length; i++)
         {
-          parameterDefs.add(createDefinition(parameter, complexTypeMap));
+          Type parameterType = (genericParameterTypes[i] instanceof ParameterizedType) ? genericParameterTypes[i] : parameterTypes[i];
+          parameterDefs.add(createDefinition(parameterType, complexTypeMap));
         }
         
         methodDefs.add(new MethodDefinition(methodName, accesslevel, statc, parameterDefs, returnTypeDef));
       }
     }
+
     complexTypeDef.setMethods(methodDefs);
-    
     return complexTypeDef;
   }
   
@@ -247,5 +236,28 @@ public class DefinitionCreator
     {
       return AccessLevel.PACKAGE;
     }
+  }
+  
+  Class getRawClass(Type type)
+  {
+    if (type instanceof ParameterizedType)
+    {
+      ParameterizedType paramType = (ParameterizedType)type;
+      return getRawClass(paramType.getRawType());
+    }
+    else if (type instanceof TypeVariable)
+    {
+      TypeVariable typeVar = (TypeVariable)type;
+      return getRawClass((Type)typeVar.getGenericDeclaration());
+    }
+    else if (type instanceof GenericArrayType)
+    {
+      GenericArrayType genericArrayType = (GenericArrayType)type;
+      return getRawClass(genericArrayType.getGenericComponentType());
+    }
+    else
+    {
+      return (Class)type;
+    }    
   }
 }

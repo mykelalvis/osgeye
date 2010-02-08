@@ -10,6 +10,8 @@ public class TypeDefinition implements Serializable
   
   private ComplexTypeDefinition complexTypeDef;
   
+  private String complexTypeNameReference;
+  
   public TypeDefinition(SimpleTypeDefinition simpleTypeDef)
   {
     this.simpleTypeDef = simpleTypeDef;

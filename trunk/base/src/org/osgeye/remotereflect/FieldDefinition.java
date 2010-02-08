@@ -1,6 +1,8 @@
 package org.osgeye.remotereflect;
 
-public class FieldDefinition
+import java.io.Serializable;
+
+public class FieldDefinition implements Serializable
 {
   private String name;
   
