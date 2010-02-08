@@ -1,5 +1,7 @@
 package org.osgeye.remotereflect;
 
+import java.util.Date;
+
 public enum SimpleTypeDefinition
 {
   BYTE("java.lang", "Byte"),
@@ -42,5 +44,41 @@ public enum SimpleTypeDefinition
   public String getPackage()
   {
     return packge;
+  }
+  
+  public boolean equalsClass(Class clazz)
+  {
+   switch (this)
+   {
+     case BYTE:
+       return ((byte.class == clazz) || (Byte.class == clazz));
+       
+     case BOOLEAN:
+       return ((boolean.class == clazz) || (Boolean.class == clazz));
+       
+     case SHORT:
+       return ((short.class == clazz) || (Short.class == clazz));
+       
+     case INTEGER:
+       return ((int.class == clazz) || (Integer.class == clazz));
+       
+     case LONG:
+       return ((long.class == clazz) | (Long.class == clazz));
+       
+     case FLOAT:
+       return ((float.class == clazz) || (Float.class == clazz));
+       
+     case DOUBLE:
+       return ((double.class == clazz) || (Double.class == clazz));
+       
+     case STRING:
+       return (String.class == clazz);
+       
+     case DATE:
+       return (Date.class == clazz);
+       
+     default:
+       return false;
+   }
   }
 }

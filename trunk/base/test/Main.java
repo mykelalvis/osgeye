@@ -1,3 +1,4 @@
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -5,6 +6,8 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.osgeye.remotereflect.SampleA;
 
 
 public class Main
@@ -20,6 +23,24 @@ public class Main
    */
   public static void main(String[] args) throws Exception
   {
+    File file = new File("test.xml");
+    
+    Field[] fields = file.getClass().getDeclaredFields();
+    System.out.println(fields.length);
+    
+    for (Field field : fields)
+    {
+      field.setAccessible(true);
+      System.out.println(field.getName() + " = " + field.get(file) + "  " + field.getDeclaringClass());
+      if (field.getName().equals("path"))
+      {
+        field.set(file, "hello.html");
+      }
+    }
+    
+    System.out.println(file.getAbsolutePath());
+    
+    /*
     Field x = Main.class.getDeclaredField("xxx");
     System.out.println(x.getType());
        
@@ -47,7 +68,7 @@ public class Main
         }
       }
     }
-    
+    */
   }
   
   public void test(List<String> abc, Integer xx)
