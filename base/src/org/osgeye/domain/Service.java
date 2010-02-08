@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osgeye.remotereflect.DefinitionCreator;
 import org.osgi.framework.ServiceReference;
 
 public class Service implements Serializable, Comparable<Service>
@@ -33,13 +32,11 @@ public class Service implements Serializable, Comparable<Service>
     String[] registeredNames = (String[])serviceReference.getProperty(OBJECTCLASS);
     registeredClasses = new ArrayList<ServiceClass>();
     
-    DefinitionCreator defCreator = new DefinitionCreator();
     for (String registeredName : registeredNames)
     {
       try
       {
-        Class serviceClass = osgiBundle.loadClass(registeredName);
-        registeredClasses.add(new ServiceClass(defCreator.createDefinition(serviceClass), this));
+        registeredClasses.add(new ServiceClass(osgiBundle.loadClass(registeredName), this));
       }
       catch (ClassNotFoundException cnfexc)
       {
