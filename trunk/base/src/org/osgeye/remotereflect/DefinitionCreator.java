@@ -78,54 +78,56 @@ public class DefinitionCreator
         Type[] genericTypes = paramType.getActualTypeArguments();
         if ((genericTypes != null) && (genericTypes.length > 0))
         {
-          complexTypeDef.setContainerType(createDefinition(paramType, complexTypeMap));
+          complexTypeDef.setContainerType(createDefinition(genericTypes[0], complexTypeMap));
         }
       }
     }
-    
-    Field[] fields = clazz.getFields();
-    List<FieldDefinition> fieldDefs = new ArrayList<FieldDefinition>();
-    for (Field field : fields)
+    else
     {
-      if (field.getDeclaringClass() != Object.class)
+      Field[] fields = clazz.getDeclaredFields();
+      List<FieldDefinition> fieldDefs = new ArrayList<FieldDefinition>();
+      for (Field field : fields)
       {
-        String fieldName = field.getName();
-        AccessLevel accessLevel = getAccessLevel(field.getModifiers());
-        boolean statc = Modifier.isStatic(field.getModifiers());
-        Type parameterType = (field.getGenericType() instanceof ParameterizedType) ? field.getGenericType() : field.getType();
-        TypeDefinition fieldTypeDef = createDefinition(parameterType, complexTypeMap);
-        fieldDefs.add(new FieldDefinition(fieldName, accessLevel, statc, fieldTypeDef));
-      }
-    }
-    complexTypeDef.setFields(fieldDefs);
-    
-    Method[] methods = clazz.getMethods();
-    List<MethodDefinition> methodDefs = new ArrayList<MethodDefinition>();
-    for (Method method : methods)
-    {
-      if (method.getDeclaringClass() != Object.class)
-      {
-        String methodName = method.getName();
-        AccessLevel accesslevel = getAccessLevel(method.getModifiers());
-        boolean statc = Modifier.isStatic(method.getModifiers());
-        Type returnType = (method.getGenericReturnType() instanceof ParameterizedType) ? method.getGenericReturnType() : method.getReturnType();
-        TypeDefinition returnTypeDef = (returnType == void.class) ? null : createDefinition(returnType, complexTypeMap);
-        
-        Type[] genericParameterTypes = method.getGenericParameterTypes();
-        Type[] parameterTypes = method.getParameterTypes();
-        List<TypeDefinition> parameterDefs = new ArrayList<TypeDefinition>();
-        
-        for (int i = 0; i < genericParameterTypes.length; i++)
+        if (field.getDeclaringClass() != Object.class)
         {
-          Type parameterType = (genericParameterTypes[i] instanceof ParameterizedType) ? genericParameterTypes[i] : parameterTypes[i];
-          parameterDefs.add(createDefinition(parameterType, complexTypeMap));
+          String fieldName = field.getName();
+          AccessLevel accessLevel = getAccessLevel(field.getModifiers());
+          boolean statc = Modifier.isStatic(field.getModifiers());
+          Type parameterType = (field.getGenericType() instanceof ParameterizedType) ? field.getGenericType() : field.getType();
+          TypeDefinition fieldTypeDef = createDefinition(parameterType, complexTypeMap);
+          fieldDefs.add(new FieldDefinition(fieldName, accessLevel, statc, fieldTypeDef));
         }
-        
-        methodDefs.add(new MethodDefinition(methodName, accesslevel, statc, parameterDefs, returnTypeDef));
       }
+      complexTypeDef.setFields(fieldDefs);
+    
+      Method[] methods = clazz.getMethods();
+      List<MethodDefinition> methodDefs = new ArrayList<MethodDefinition>();
+      for (Method method : methods)
+      {
+        if (method.getDeclaringClass() != Object.class)
+        {
+          String methodName = method.getName();
+          AccessLevel accesslevel = getAccessLevel(method.getModifiers());
+          boolean statc = Modifier.isStatic(method.getModifiers());
+          Type returnType = (method.getGenericReturnType() instanceof ParameterizedType) ? method.getGenericReturnType() : method.getReturnType();
+          TypeDefinition returnTypeDef = (returnType == void.class) ? null : createDefinition(returnType, complexTypeMap);
+          
+          Type[] genericParameterTypes = method.getGenericParameterTypes();
+          Type[] parameterTypes = method.getParameterTypes();
+          List<TypeDefinition> parameterDefs = new ArrayList<TypeDefinition>();
+          
+          for (int i = 0; i < genericParameterTypes.length; i++)
+          {
+            Type parameterType = (genericParameterTypes[i] instanceof ParameterizedType) ? genericParameterTypes[i] : parameterTypes[i];
+            parameterDefs.add(createDefinition(parameterType, complexTypeMap));
+          }
+          
+          methodDefs.add(new MethodDefinition(methodName, accesslevel, statc, parameterDefs, returnTypeDef));
+        }
+      }
+      complexTypeDef.setMethods(methodDefs);
     }
 
-    complexTypeDef.setMethods(methodDefs);
     return complexTypeDef;
   }
   
@@ -180,9 +182,13 @@ public class DefinitionCreator
     {
       for (Class interfce : interfaces)
       {
-        if (isIterable(interfce))
+        if (interfce == Iterable.class)
         {
           return true;
+        }
+        else
+        {
+          return implementsIterable(interfce);
         }
       }
     }
@@ -195,26 +201,6 @@ public class DefinitionCreator
     else
     {
       return false;
-    }
-  }
-  
-  boolean isIterable(Class interfce)
-  {
-    if (interfce == Iterable.class)
-    {
-      return true;
-    }
-    else
-    {
-      Class superClass = interfce.getSuperclass();
-      if (superClass != null)
-      {
-        return isIterable(superClass);
-      }
-      else
-      {
-        return false;
-      }
     }
   }
   
