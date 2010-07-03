@@ -1,5 +1,6 @@
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.GenericDeclaration;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -16,13 +17,39 @@ public class Main
   
   private List<String> vals = new ArrayList<String>();
   
-  
+  public List<SampleA> getSamples()
+  {
+    return null;
+  }
 
   /**
    * @param args
    */
   public static void main(String[] args) throws Exception
   {
+    ArrayList<SampleA> sampleAList = new ArrayList<SampleA>();
+    Class clazz = sampleAList.getClass();
+    
+    
+    Method[] methods = Main.class.getDeclaredMethods();
+    for (Method method : methods)
+    {
+      if (method.getName().equals("getSamples"))
+      {
+        Type returnClass = method.getGenericReturnType();
+        System.out.println(returnClass instanceof ParameterizedType);
+        ParameterizedType pt = (ParameterizedType)returnClass;
+        System.out.println(pt.getActualTypeArguments()[0]);
+      }
+    }
+    
+//    System.out.println(clazz instanceof GenericDeclaration);
+   // TypeVariable typeParam = clazz.getTypeParameters()[0];
+   //  ParameterizedType pt = (ParameterizedType)typeParam.getGenericDeclaration();
+
+    //    System.out.println(typeParam.getBounds()[0]);
+    
+    /*
     File file = new File("test.xml");
     
     Field[] fields = file.getClass().getDeclaredFields();
@@ -39,6 +66,7 @@ public class Main
     }
     
     System.out.println(file.getAbsolutePath());
+    */
     
     /*
     Field x = Main.class.getDeclaredField("xxx");
