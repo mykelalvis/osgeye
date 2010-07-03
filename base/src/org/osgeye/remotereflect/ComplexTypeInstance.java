@@ -7,6 +7,8 @@ public class ComplexTypeInstance extends AbstractTypeInstance
 {
   private ComplexTypeDefinition definition;
   
+  private List<AbstractTypeInstance> listInstances;
+  
   private List<SimpleTypeInstance> simpleTypeFields;
   
   private List<ComplexTypeInstance> complexTypeFields;
@@ -21,6 +23,7 @@ public class ComplexTypeInstance extends AbstractTypeInstance
     super(name);
     this.definition = definition;
     
+    listInstances = new ArrayList<AbstractTypeInstance>();
     simpleTypeFields = new ArrayList<SimpleTypeInstance>();
     complexTypeFields = new ArrayList<ComplexTypeInstance>();
   }
@@ -28,6 +31,16 @@ public class ComplexTypeInstance extends AbstractTypeInstance
   public ComplexTypeDefinition getDefinition()
   {
     return definition;
+  }
+  
+  public void addListInstance(AbstractTypeInstance typeInstance)
+  {
+    listInstances.add(typeInstance);
+  }
+
+  public List<AbstractTypeInstance> getListInstances()
+  {
+    return listInstances;
   }
 
   public void addSimpleTypeField(SimpleTypeInstance simpleTypeInstance)

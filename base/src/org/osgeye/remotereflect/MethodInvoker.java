@@ -1,20 +1,32 @@
 package org.osgeye.remotereflect;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class MethodExecutor
+public class MethodInvoker
 {
   private DefinitionCreator definitionCreator;
+  private InstanceCreator instanceCreator;
   
-  public MethodExecutor()
+  public MethodInvoker()
   {
     definitionCreator = new DefinitionCreator();
+    instanceCreator = new InstanceCreator();
   }
   
-  public AbstractTypeInstance executeMethod(Object object, String methodName, List<SimpleTypeInstance> parameterInstances) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
+  /**
+   * Invokes the method with the given method name and given list of simple parameters on the given object.
+   * 
+   * @param object The object to invoke the method on.
+   * @param methodName The method name to invoke.
+   * @param parameterInstances The list of simple parameters that will be converted to native objects used in the method invoke. If not parameters are used this should an empty list.
+   * @return The converted type instance of the returned method's object or null if this method is defined as null.
+   * @throws IllegalArgumentException If a matching method can be found on the given object that matches the method mame and parameter instances.
+   * @throws IllegalAccessException If the method can be invoked.
+   * @throws InvocationTargetException If the method invoke throws an exception.
+   */
+  public AbstractTypeInstance invokeMethod(Object object, String methodName, List<SimpleTypeInstance> parameterInstances) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException
   {
     Method[] methods = object.getClass().getDeclaredMethods();
 
@@ -55,49 +67,15 @@ public class MethodExecutor
     }
     
     Object returnVal = matchedMethod.invoke(object, parameters);
-    TypeDefinition returnTypeDef = definitionCreator.createDefinition(returnVal.getClass());
     
-    if (returnTypeDef.isSimpleType())
+    if (returnVal == null)
     {
-      return new SimpleTypeInstance(returnTypeDef.getSimpleTypeDef(), returnVal);
+      return null;
     }
     else
     {
-      Class complexClass = returnVal.getClass();
-      ComplexTypeDefinition complexTypeDef = returnTypeDef.getComplexTypeDef();
-      ComplexTypeInstance complexTypeInstance = new ComplexTypeInstance(complexTypeDef);
-      
-      for (FieldDefinition fieldDef : complexTypeDef.getFields())
-      {
-        try
-        {
-          Field field = complexClass.getDeclaredField(fieldDef.getName());
-          
-          try
-          {
-            field.setAccessible(true);
-            
-          }
-          catch (SecurityException sexc)
-          {
-            
-          }
-          finally
-          {
-            try
-            {
-              field.setAccessible(false);
-            }
-            catch (Exception exc) {}
-          }
-        }
-        catch (NoSuchFieldException nsfexc)
-        {
-          
-        }
-      }
-      
+      return instanceCreator.createInstance(returnVal, matchedMethod.getGenericReturnType(), null);
     }
-    
   }
 }
+ 

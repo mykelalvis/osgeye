@@ -56,6 +56,8 @@ import org.osgeye.messages.GetServiceTypeDefinitionRequest;
 import org.osgeye.messages.GetServiceTypeDefinitionResponse;
 import org.osgeye.messages.InstallBundleRequest;
 import org.osgeye.messages.InstallBundleResponse;
+import org.osgeye.messages.InvokeServiceMethodRequest;
+import org.osgeye.messages.InvokeServiceMethodResponse;
 import org.osgeye.messages.LoginRequest;
 import org.osgeye.messages.LoginResponse;
 import org.osgeye.messages.RefreshPackagesRequest;
@@ -68,6 +70,8 @@ import org.osgeye.messages.StopBundlesRequest;
 import org.osgeye.messages.UninstallBundlesRequest;
 import org.osgeye.messages.UpdateBundleRequest;
 import org.osgeye.messages.VoidResponse;
+import org.osgeye.remotereflect.AbstractTypeInstance;
+import org.osgeye.remotereflect.SimpleTypeInstance;
 import org.osgeye.remotereflect.TypeDefinition;
 import org.osgeye.utils.IOUtils;
 
@@ -463,6 +467,12 @@ public class NetworkClient implements Runnable
   {
     assertConnected();
     return sendRequest(new GetServiceTypeDefinitionRequest(serviceClass), GetServiceTypeDefinitionResponse.class).getTypeDefinition();
+  }
+  
+  public AbstractTypeInstance invokeServiceMethod(ServiceClass serviceClass, String methodName, List<SimpleTypeInstance> parameters) throws ConnectException, IllegalStateException, RemoteServerException
+  {
+    assertConnected();
+    return sendRequest(new InvokeServiceMethodRequest(serviceClass, methodName, parameters), InvokeServiceMethodResponse.class).getReturnType();
   }
   
   /**
